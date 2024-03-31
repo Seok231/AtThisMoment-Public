@@ -14,8 +14,10 @@ class NoticeVC: UIViewController {
     let nvModel = NavigationModel()
     let viewModel = NoticeModel()
     let moveModel = MoveViewControllerModel()
+    let refreshControl = UIRefreshControl()
     override func viewDidLoad() {
         navigationSet()
+        initRefresh()
         tableView.register(UINib(nibName: "NoticeCell", bundle: nil), forCellReuseIdentifier: "NoticeCell")
         tableView.dataSource = self
         tableView.delegate = self
@@ -25,11 +27,26 @@ class NoticeVC: UIViewController {
         tableView.backgroundColor = UIColor(named: "BackgroundColor")
 
     }
+    
+    func initRefresh() {
+        refreshControl.addTarget(self, action: #selector(refreshTable(refresh:)), for: .valueChanged)
+        refreshControl.tintColor = UIColor(named: "MainGreen")
+        tableView.refreshControl = refreshControl
+    }
+    @objc func refreshTable(refresh: UIRefreshControl) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            
+            self.tableView.reloadData()
+            
+            refresh.endRefreshing()
+        }
+    }
     func navigationSet() {
         let appearance = nvModel.navigationBaseSet()
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
         self.navigationItem.title = "공지사항"
+        self.navigationController?.navigationBar.tintColor = UIColor(named: "FontColor")
     }
 }
 

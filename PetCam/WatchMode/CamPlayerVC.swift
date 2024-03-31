@@ -10,15 +10,25 @@ import AVFoundation
 import UIKit
 import AVKit
 import Combine
+import HaishinKit
+import SRTHaishinKit
+
 
 class CamPlayerVC: UIViewController {
+    //WebRTC
+    // test
     var timer: Timer?
-    var tapEventBool = true
+    var tapEventBool = false
     var urlModel = URLModel()
     let fbModel = FirebaseModel.fb
     let moveModel = MoveViewControllerModel()
-
+    let viewModel = PlayerModel()
+//    private let test: SRTConnection
+    
+    var stream: SRTStream! = nil
+    var connection = SRTConnection()
     var cancellables: Set<AnyCancellable> = []
+    var timerCount = 0
     private var volumeBool = false
     private var player = AVPlayer()
     private var playerLayer = AVPlayerLayer()
@@ -27,26 +37,42 @@ class CamPlayerVC: UIViewController {
     var camInfo: FirebaseCamList? {
         didSet {
             guard let list = camInfo else {return}
-            settingPlayerURL(hls: list.hls)
+//            settingPlayerURL(hls: list.hls)
+            setPlayer(hls: list.hls)
         }
     }
     var listIndex: Int? {
         didSet {
             guard let index = listIndex else {return}
             fbModel.$camList.sink { list in
-                self.camNameLabel.text = list[index].camName
-                self.batteryLevelLabel.text = list[index].batteryLevel.description + "%"
+                let camList = list[index]
+                self.changedInfo(list: camList)
             }.store(in: &cancellables)
         }
     }
+    func changedInfo(list: FirebaseCamList) {
+        let level = list.batteryLevel?.description ?? "--" + "%"
+        let boltImage = UIImage(systemName: "bolt.fill", withConfiguration: viewModel.imageConf)
+        
+        self.camNameLabel.text = list.camName
+        if list.srt == 1 {
+            batteryLevelBT.setTitle(level, for: .normal)
+            if list.batteryState == "Charging" {
+                batteryLevelBT.setImage(boltImage, for: .normal)
+            } else {
+                batteryLevelBT.setImage(nil, for: .normal)
+            }
+        }
+        
+    }
     
-    @IBOutlet weak var batteryLevelLabel: UILabel!
+    @IBOutlet weak var batteryLevelBT: UIButton!
     @IBOutlet weak var bottomInfoView: UIView!
     @IBOutlet weak var topInfoView: UIView!
     @IBOutlet weak var volumeBT: UIButton!
     @IBOutlet weak var changePositionBT: UIButton!
     @IBOutlet weak var camNameLabel: UILabel!
-    @IBOutlet weak var playerView: UIView!
+    @IBOutlet weak var playerView: UIImageView!
     @IBOutlet weak var backBT: UIButton!
     @IBOutlet weak var fullModeBT: UIButton!
     @IBAction func backAction(_ sender: Any) {
@@ -82,6 +108,7 @@ class CamPlayerVC: UIViewController {
         if let list = camInfo {
             fbModel.changePosition(hls: list.hls)
         }
+        timerCount = 0
     }
     
     override func viewDidLoad() {
@@ -90,31 +117,45 @@ class CamPlayerVC: UIViewController {
 //        setPlayer()
     }
     override func viewDidAppear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self)
+//        NotificationCenter.default.removeObserver(self)
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
-//        connection.close()
-//        stream.close()
+        super.viewWillDisappear(animated)
+        print("viewWillDisappear")
+        connection.close()
+        stream.close()
+//        connection = nil
+        stream = nil
+        
     }
 
     
-//    func setPlayer() {
-//        stream = SRTStream(connection: connection)
-//        hkView = MTHKView(frame: playerView.bounds)
-//        hkView.videoGravity = AVLayerVideoGravity.resizeAspect
-//        hkView.attachStream(stream)
-//        
-//        playerView.addSubview(hkView)
-//        hkView.transform = CGAffineTransform(scaleX: -1, y: 1)
-//        hkView.transform = CGAffineTransform(scaleX: 1, y: -1)
-//        stream.play()
-//        print("fps",stream.currentFPS)
-//        
+    func setPlayer(hls: String) {
+        
+        stream = SRTStream(connection: connection)
+        connection.open(urlModel.makeSrtUrl(hls: hls, push: false),mode: .caller)
+        let hkView = MTHKView(frame: playerView.bounds)
+        hkView.videoGravity = AVLayerVideoGravity.resizeAspect
+        
+        hkView.attachStream(stream)
+        
+        playerView.addSubview(hkView)
 //
-//    }
+        
+        stream.play()
+        
+        hkView.accessibilityTraits = .playsSound
+        
+//        print("fps",stream.currentFPS)
+        
+
+    }
     private func settingPlayerURL(hls: String) {
         print(urlModel.playerItem(hls: hls))
+        
         player.replaceCurrentItem(with: urlModel.playerItem(hls: hls))
+        
         playerLayer.player = player
         playerLayer.frame = playerView.bounds
         playerView.layer.addSublayer(playerLayer)
@@ -131,9 +172,9 @@ class CamPlayerVC: UIViewController {
 
     func playViewInfoTogle() {
         if tapEventBool { 
-            tapEventTrue()
-        } else {
             tapEventFalse()
+        } else {
+            tapEventTrue()
         }
     }
     func tapEventTrue() {
@@ -141,36 +182,40 @@ class CamPlayerVC: UIViewController {
             self.topInfoView.layer.opacity = 1.0
             self.bottomInfoView.layer.opacity = 1.0
         })
-        var count = 0
+        timerCount = 0
         timer = Timer(timeInterval: 1, repeats: true, block: { _ in
-            count += 1
-            if self.tapEventBool == false, count > 4 {
+            self.timerCount += 1
+            if self.tapEventBool == true, self.timerCount > 5 {
                 self.playViewInfoTogle()
             }
         })
         RunLoop.current.add(timer!, forMode: .common)
-        tapEventBool = false
+        tapEventBool.toggle()
     }
-    
     func tapEventFalse() {
-        
         timer?.invalidate()
         UIView.animate(withDuration: 0.15, animations: {
             self.topInfoView.layer.opacity = 0
             self.bottomInfoView.layer.opacity = 0
         })
-        self.tapEventBool = true
-        
+        tapEventBool.toggle()
+    }
+    @objc func addTimeTapEvent(sender: UITapGestureRecognizer) {
+        if tapEventBool {
+            print("timerCount = 0")
+            timerCount = 0
+        }
     }
     
     func layoutSetting() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(playViewTap(sender: )))
-        let btGroundColor = UIColor.mainGreen
+        let timerCountTap = UITapGestureRecognizer(target: self, action: #selector(addTimeTapEvent(sender: )))
+//        let btGroundColor = UIColor.mainGreen
+        topInfoView.addGestureRecognizer(timerCountTap)
+        bottomInfoView.addGestureRecognizer(timerCountTap)
         playerView.addGestureRecognizer(tapGesture)
         playerView.backgroundColor = .black
         self.view.backgroundColor = .black
-        
-//        fullModeBT.setImage(UIImage(systemName: "plus.viewfinder"), for: .normal)
 
         backBT.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         backBT.setTitle("", for: .normal)
@@ -180,7 +225,7 @@ class CamPlayerVC: UIViewController {
         fullModeBT.tintColor = .white
 //        fullModeBT.backgroundColor = btGroundColor
 //        fullModeBT.layer.cornerRadius = fullModeBT.layer.frame.width/2
-        camNameLabel.font = UIFont.boldSystemFont(ofSize: 30)
+        camNameLabel.font = UIFont.boldSystemFont(ofSize: 20)
         camNameLabel.textColor = .white
         changePositionBT.setImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
 //        changePositionBT.setTitle("카메라 변경", for: .normal)
@@ -191,14 +236,20 @@ class CamPlayerVC: UIViewController {
         volumeBT.setImage(UIImage(systemName: "speaker.slash.fill"), for: .normal)
         volumeBT.tintColor = .white
         volumeBT.setTitle("", for: .normal)
+        volumeBT.isHidden = true
 //        volumeBT.backgroundColor = btGroundColor
 //        volumeBT.layer.cornerRadius = volumeBT.layer.frame.width / 2
 //        volumeBT.contentVerticalAlignment = .bottom
         
-        batteryLevelLabel.text = "--%"
-        batteryLevelLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        batteryLevelLabel.textColor = .white
-        
+//        batteryLevelLabel.text = "--%"
+//        batteryLevelLabel.font = UIFont.boldSystemFont(ofSize: 10)
+//        batteryLevelLabel.textColor = .white
+        batteryLevelBT.setTitleColor(viewModel.tintColor, for: .normal)
+        batteryLevelBT.tintColor = viewModel.tintColor
+        batteryLevelBT.setTitle("--%", for: .normal)
+        batteryLevelBT.titleLabel?.font = viewModel.labelFont
+        topInfoView.isUserInteractionEnabled = true
+        bottomInfoView.isUserInteractionEnabled = true
         topInfoView.layer.backgroundColor = (UIColor.black.cgColor).copy(alpha: 0.5)
         bottomInfoView.layer.backgroundColor = (UIColor.black.cgColor).copy(alpha: 0.5)
 //        changePositionBT.semanticContentAttribute = .unspecified

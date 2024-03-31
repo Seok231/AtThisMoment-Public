@@ -15,26 +15,44 @@ import UIKit
 struct FirebaseCamListModel: Codable {
     let result: [FirebaseCamList]
 }
+
 struct FirebaseCamList: Codable {
     let camName: String
     let hls: String
     let date: Int
-    let batteryLevel: Int
-    let batteryState: String
+    let batteryLevel: Int?
+    let batteryState: String?
     let deviceModel: String
     let deviceVersion: String
+    let srt: Int?
 }
 
 class FirebaseModel: ObservableObject {
-    static let fb = FirebaseModel()
+//    static var fb: FirebaseModel = {
+//        let fb = FirebaseModel()
+//        guard let auth = Auth.auth().currentUser else {return fb}
+//        guard let name = auth.displayName else {return fb}
+//        guard let email = auth.email else {return fb}
+//        guard let photoURL = auth.photoURL else {return fb}
+//        let uid = auth.uid
+//        fb.userName = name
+//        fb.userEmail = email
+//        fb.userID = uid
+//        fb.userPhotoURL = photoURL
+////        fb.creatUser()
+//        return fb
+//    }()
+    static var fb = FirebaseModel()
     private init () {}
     var moveVC = MoveViewControllerModel()
     var databaseRef = Database.database().reference()
     var storageRef = Storage.storage().reference()
-    let userID = Auth.auth().currentUser?.uid ?? ""
-    let userEmail = Auth.auth().currentUser?.email ?? ""
-    let userName = Auth.auth().currentUser?.displayName ?? ""
+    var userID = Auth.auth().currentUser?.uid ?? ""
+    var userEmail = Auth.auth().currentUser?.email ?? ""
+    var userName = Auth.auth().currentUser?.displayName ?? ""
+    var userPhotoURL = Auth.auth().currentUser?.photoURL
     var cancellables: Set<AnyCancellable> = []
+    var checkCamList: [String:Int] = [:]
     @Published var camList: [FirebaseCamList] = []
     func camListCount(completion: @escaping(Int) -> Void)  {
         $camList.sink { fb in
@@ -42,13 +60,28 @@ class FirebaseModel: ObservableObject {
         }.store(in: &cancellables)
     }
     func creatUserChild () -> String {
-        let path = "PetCam/Users/\(userID)/"
+        let path = "PetCam/Users/\(userID)"
         return path
     }
     func creatUser() {
-        let child = creatUserChild() + "userInfo"
+        let child = creatUserChild() + "/userInfo"
+        print("FirebaseModel CreatUser() child : ", child)
         let value = ["userEmail" : userEmail, "userID" : userID]
         databaseRef.child(child ).setValue(value)
+    }
+    func signIn() {
+        guard let auth = Auth.auth().currentUser else {return}
+        print("fb auth", auth)
+        guard let name = auth.displayName else {return}
+        print("fb name", name)
+        guard let email = auth.email else {return}
+        print("fb email", email)
+//        guard let photoURL = auth.photoURL else {return}
+        let uid = auth.uid
+        userName = name
+        userEmail = email
+        userID = uid
+//        userPhotoURL = photoURL
     }
 
     func signOut() {
@@ -58,25 +91,50 @@ class FirebaseModel: ObservableObject {
         } catch let signOutError as NSError {
           print("Error signing out: %@", signOutError)
         }
+        camList = []
+        
     }
     
     // (Int(Date().timeIntervalSince1970)).description
     func camListUpdate(completion: @escaping () -> Void) {
         let child = creatUserChild() + "/CamList/"
         print("camListUpdate", child)
+        print("userName", userName)
         databaseRef.child(child).observe(DataEventType.value) { DataSnapshot in
             guard let snapData = DataSnapshot.value as? [String:Any] else{return}
             let data = try! JSONSerialization.data(withJSONObject: Array(snapData.values), options: [])
             do {
                 let decoder = JSONDecoder()
                 self.camList = try decoder.decode([FirebaseCamList].self, from: data)
-                completion()
                 self.camList.sort(by: {$0.date > $1.date})
+                completion()
             } catch let error {
                 print("get Firebase data error", error)
             }
 
         }
+    }
+
+    func updateCheckCam(completion: @escaping () -> Void) {
+        let child = creatUserChild() + "/CheckCam/"
+        databaseRef.child(child).observe(DataEventType.value) { snapData in
+            if let data = snapData.value as? [String:Int] {
+                self.checkCamList = data
+            }
+            completion()
+        }
+    }
+    func removeObseve() {
+        removeCamListObseve()
+        removeCheckCamObseve()
+    }
+    func removeCamListObseve() {
+        let child = creatUserChild() + "CamList/"
+        databaseRef.child(child).removeAllObservers()
+    }
+    func removeCheckCamObseve() {
+        let child = creatUserChild() + "CamList/"
+        databaseRef.child(child).removeAllObservers()
     }
     func changePosition(hls: String) {
         let path  = creatUserChild() + "/CamList/\(hls)/position"

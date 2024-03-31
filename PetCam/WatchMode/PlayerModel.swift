@@ -10,18 +10,7 @@ import AVKit
 import UIKit
 class PlayerModel {
     
-//    func playerSet() -> AVPlayerLayer {
-//         var player = AVPlayer()
-//         var playerLayer = AVPlayerLayer()
-//         var pipPlayerController: AVPictureInPictureController?
-//         var playerController = AVPlayerViewController()
-//        let url = URL(string:"https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8")!
-//        let playerItem = AVPlayerItem(url: url)
-//        playerItem.preferredForwardBufferDuration = TimeInterval(1.0)
-//        player.replaceCurrentItem(with: playerItem)
-//        playerLayer.player = player
-////        playerLayer.frame = playerView.bounds
-//        playerLayer.videoGravity = .resizeAspect
-//        return playerLayer
-//    }
+    let imageConf = UIImage.SymbolConfiguration(pointSize: 9, weight: .light)
+    let labelFont = UIFont.boldSystemFont(ofSize: 13)
+    let tintColor = UIColor.white
 }

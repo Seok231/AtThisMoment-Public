@@ -10,9 +10,27 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    // SceneDelegate.swift
+    func moveToSignInVC() {
+        guard let windowScene = window?.windowScene else { return }
+        
+        // 초기 뷰 컨트롤러 설정
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let initialViewController = storyboard.instantiateViewController(withIdentifier: "SignInVC") as? SignInVC else { return }
+        
+        // 새로운 루트 뷰 컨트롤러를 설정하여 앱을 처음 상태로 리셋
+        window = UIWindow(windowScene: windowScene)
+        window?.rootViewController = initialViewController
+        window?.makeKeyAndVisible()
+        
+        // 필요한 경우 사용자 정보 싱글톤 초기화
+//        UserManager.shared.resetUser()
+    }
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).

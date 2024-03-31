@@ -19,10 +19,12 @@ class UserInfoVC: UIViewController {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
     @IBAction func signOutBTAction(_ sender: Any) {
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {return}
         let signOut = UIAlertAction(title: "로그아웃", style: .default) { _ in
             self.fbModel.signOut()
-            let vc = self.moveVC.moveToVC(storyboardName: "Main", className: "SignInVC")
-            self.present(vc, animated: true)
+            sceneDelegate.moveToSignInVC()
+//            let vc = self.moveVC.moveToVC(storyboardName: "Main", className: "SignInVC")
+//            self.present(vc, animated: true)
         }
         let alert = moveVC.signOutAlert(signOut: signOut)
         self.present(alert, animated: true)
@@ -40,16 +42,17 @@ class UserInfoVC: UIViewController {
         self.navigationItem.title = "내정보"
     }
     func setLayer() {
-        guard let user = Auth.auth().currentUser else {return}
-        guard let photoURL = user.photoURL else {return}
-        let userImage = viewModel.setUserImage(photoURL: photoURL)
+        fbModel.signIn()
+        userImageView.image = UIImage(named: "testImage")
+        if let photoURL = fbModel.userPhotoURL {
+            let userImage = viewModel.setUserImage(photoURL: photoURL)
+            userImageView.image = userImage
+        }
+        
         
         self.view.backgroundColor = UIColor(named: "BackgroundColor")
-
-        
-        userImageView.image = userImage
-        userNameLabel.text = user.displayName
-        userEmailLabel.text = user.email
+        userNameLabel.text = fbModel.userName
+        userEmailLabel.text = fbModel.userEmail
         
         userNameLabel.textColor = UIColor(named: "FontColor")
         userEmailLabel.textColor = .gray

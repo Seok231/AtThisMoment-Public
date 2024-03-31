@@ -11,7 +11,7 @@ class SelectModeVC: UIViewController {
     let moveView = MoveViewControllerModel()
     let urlModel = URLModel()
     let fbModel = FirebaseModel.fb
-    let watchCamListModel = WatchCamListModel()
+//    let watchCamListModel = WatchCamListModel()
     @IBOutlet weak var camModeBT: UIButton!
     @IBOutlet weak var watchModeBT: UIButton!
     
@@ -29,7 +29,8 @@ class SelectModeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         uiSetting()
-        watchCamListModel.removeCamListObseve()
+        fbModel.removeObseve()
+        fbModel.signIn()
     }
 //    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
 //            return .portrait

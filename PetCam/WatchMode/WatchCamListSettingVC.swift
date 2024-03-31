@@ -11,6 +11,8 @@ import FirebaseDatabase
 
 class WatchCamListSettingVC: UIViewController {
 
+    @IBOutlet weak var closeLineView: UIView!
+    @IBOutlet weak var camNameLineView: UIView!
     @IBOutlet weak var removeCamBT: UIButton!
     @IBOutlet weak var camOnoffLabel: UILabel!
     @IBOutlet weak var camOnoffTitleLabel: UILabel!
@@ -85,6 +87,13 @@ class WatchCamListSettingVC: UIViewController {
     override func viewDidLoad() {
 //        let bold10 = UIFont.boldSystemFont(ofSize: 10)
         let bold15 = UIFont.boldSystemFont(ofSize: 15)
+        let font15 = UIFont.systemFont(ofSize: 15)
+        let imageConf = UIImage.SymbolConfiguration(pointSize: 16, weight: .light)
+        let pencilImage = UIImage(systemName: "pencil", withConfiguration: imageConf)
+//        let fontColor = UIColor(named: "FontColor")
+        
+        closeLineView.layer.cornerRadius = 2
+        camNameLineView.backgroundColor = .gray
         camInfoView.backgroundColor = UIColor(named: "MainGreen")
         camInfoView.layer.cornerRadius = 10
         camNameTitleLabel.text = "카메라 이름"
@@ -95,7 +104,7 @@ class WatchCamListSettingVC: UIViewController {
         batteryLabel.text = "--%"
         camOnoffLabel.text = "오프라인"
         
-        camNameSettingBT.setImage(UIImage(named: "pencil"), for: .normal)
+        camNameSettingBT.setImage(pencilImage, for: .normal)
         camNameSettingBT.setTitle("", for: .normal)
         
         removeCamBT.backgroundColor = .darkGray
@@ -106,16 +115,17 @@ class WatchCamListSettingVC: UIViewController {
         removeCamBT.titleLabel?.font = bold15
 //        camNameLabel.font = UIFont.boldSystemFont(ofSize: 10)
         camOnoffTitleLabel.font = bold15
-        camOnoffLabel.font = bold15
+        camOnoffLabel.font = font15
         camNameTitleLabel.font = bold15
         deviceVersionTitleLabel.font = bold15
         deviceModelTitleLabel.font = bold15
         batteryTitleLabel.font = bold15
-        batteryLabel.font = bold15
-//        camNameLabel.font = bold15
-        deviceModelLabel.font = bold15
-        deviceVersionLabel.font = bold15
+        batteryLabel.font = font15
+        camNameLabel.font = font15
+        deviceModelLabel.font = font15
+        deviceVersionLabel.font = font15
         camNameSettingBT.tintColor = .gray
+        closeLineView.backgroundColor = .lightGray
 //        deviceModelLabel.textColor = .darkGray
 //        deviceVersionLabel.textColor = .darkGray
         

@@ -22,20 +22,20 @@ class WatchCamListVC: UIViewController {
     let refreshControl = UIRefreshControl()
     override func viewWillDisappear(_ animated: Bool) {
         print("viewWillDisappear")
-        viewModel.removeCamListObseve()
+        fbModel.removeObseve()
     }
     override func viewDidLoad() {
-
         self.view.backgroundColor = UIColor(named: "BackgroundColor")
         settingTableView()
         navigationSet()
-        viewModel.updateListStatus {
+        fbModel.updateCheckCam{
+            self.camListTableView.reloadData()
+        }
+        fbModel.camListUpdate {
             self.camListTableView.reloadData()
         }
         initRefresh()
     }
-    
-    
     func initRefresh() {
         refreshControl.addTarget(self, action: #selector(refreshTable(refresh:)), for: .valueChanged)
         refreshControl.tintColor = UIColor(named: "MainGreen")
@@ -43,9 +43,9 @@ class WatchCamListVC: UIViewController {
     }
     @objc func refreshTable(refresh: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.viewModel.updateListStatus {
-                self.camListTableView.reloadData()
-            }
+            
+            self.camListTableView.reloadData()
+            
             refresh.endRefreshing()
         }
     }
@@ -88,21 +88,27 @@ extension WatchCamListVC: UITableViewDelegate, UITableViewDataSource {
         let cell = camListTableView.dequeueReusableCell(withIdentifier: "WatchTableCell", for: indexPath) as! WatchTableCell
         let fb = fbModel.camList[indexPath.row]
         let vm = viewModel
-        guard let status = vm.linkStatusDict[fb.hls] else{return cell}
-        let batteryLevel = status ? fb.batteryLevel.description + "%" : "--%"
+        cell.batteryStatusBT.tintColor = UIColor(named: "FontColor")
+        let status = vm.checkCam(hls: fb.hls)
+        let batteryLevel = vm.batteryLevelString(level: fb.batteryLevel, status: status)
         let batteryImage = vm.batteryImage(level: fb.batteryLevel, status: fb.batteryState, linkStatus: status)
         let camStatus = status ? "온라인" : "오프라인"
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         cell.camNameLabel.text = fb.camName
         cell.settingBT.tag = indexPath.row
-        cell.batteryStatusBT.tintColor = UIColor(named: "FontColor")
+        
         cell.settingBT.addTarget(self, action: #selector(cellSetting(sender:)), for: .touchUpInside)
-
-        cell.batteryStatusBT.setImage(batteryImage, for: .normal)
+        
+        cell.thumbnailView.isUserInteractionEnabled = status
+        cell.infoView.isUserInteractionEnabled = status
+        
         cell.camStatusBT.tintColor = status ? vm.statuseGreenColor : vm.statuseRedColor
         cell.camStatusBT.setTitle(camStatus, for: .normal)
         cell.offlineLabel.isHidden = status
         cell.thumbnailView.image = status ? UIImage(named: "testImage") : nil
+//        cell.thumbnailView.backgroundColor = status ? UIColor(named: "MainGreen") : UIColor(named: "CamListCell")
+        
+        cell.batteryStatusBT.setImage(batteryImage, for: .normal)
         cell.batteryStatusBT.setTitle(batteryLevel, for: .normal)
         return cell
     }

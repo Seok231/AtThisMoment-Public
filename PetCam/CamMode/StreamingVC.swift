@@ -8,8 +8,11 @@
 import Foundation
 import UIKit
 import HaishinKit
+import SRTHaishinKit
 import AVFoundation
 import Combine
+import Photos
+
 
 
 class StreamingVC: UIViewController {
@@ -21,7 +24,6 @@ class StreamingVC: UIViewController {
     @IBOutlet weak var camNameTitle: UILabel!
     @IBOutlet weak var camStatusBT: UIButton!
     @IBOutlet weak var changePositionBT: UIButton!
-//    @IBOutlet weak var greenColorView: UIView!
     @IBOutlet weak var retryPushBT: UIButton!
     @IBOutlet weak var infoViewCloseBT: UIButton!
     @IBOutlet weak var signOutBT: UIButton!
@@ -35,18 +37,23 @@ class StreamingVC: UIViewController {
     @IBOutlet weak var liveView: MTHKView!
     @IBOutlet weak var fpsSG: UISegmentedControl!
     private var deviceOrientation = UIDevice.current.orientation
-    private var stream: RTMPStream! = nil
-    private var connection = RTMPConnection()
+//    private var stream: RTMPStream! = nil
+//    private var connection = RTMPConnection()
+    @Published var test = SRTLogger.shared.level
+    var stream: SRTStream! = nil
+    @Published var connection = SRTConnection()
     private var retryCount: Int = 0
     private let maxRetryCount: Int = 5
     var fbModel = FirebaseModel.fb
     let viewModel = StreamingVCModel()
     let moveModel = MoveViewControllerModel()
     let urlModel = URLModel()
+    
     var currentPosition: AVCaptureDevice.Position = .front
     var cancellables: Set<AnyCancellable> = []
     var batteryLevel: Float { UIDevice.current.batteryLevel }
     var batteryState: UIDevice.BatteryState { UIDevice.current.batteryState }
+
     @objc func fpsSetting(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             stream.frameRate = 15
@@ -59,12 +66,13 @@ class StreamingVC: UIViewController {
         changePosition()
     }
     @IBAction func changeMode(_ sender: Any) {
-        let selectVC = moveModel.moveToVC(storyboardName: "Main", className: "SelectModeVC")
-        self.present(selectVC, animated: true)
-//        self.dismiss(animated: true)
+        self.dismiss(animated: true)
+//        let selectVC = moveModel.moveToVC(storyboardName: "Main", className: "SelectModeVC")
+//        self.present(selectVC, animated: true)
+
     }
     @IBAction func retryPush(_ sender: Any) {
-        startStreaming()
+//        reStartStreaming()
     }
     @IBAction func infoViewCloseAction(_ sender: Any) {
         UIView.animate(withDuration: 0.3) {
@@ -106,25 +114,47 @@ class StreamingVC: UIViewController {
         }
     }
     @objc func batteryStateDidChange(_ notification: Notification) {
-        viewModel.setCamBatteryState(batteryState: batteryState)
+        viewModel.setCamBatteryState()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("1")
         viewModel.checkCameraPermission()
         setCamInfo()
         streamSetting()
         startStreaming()
         settingUI()
         viewModel.currentPosition {
-            print("currnetPosition")
             self.changePosition()
         }
+        $test.sink { log in
+            print("log : ",log)
+        }.store(in: &cancellables)
+        viewModel.checkCam { status in
+            self.setCamStatusBT(status: status)
+        }
+        
+        
+        
+        
 //        NotificationCenter.default.addObserver(self, selector: #selector(self.detectOrientation), name: NSNotification.Name("UIDeviceOrientationDidChangeNotification"), object: nil)
     }
     override func viewWillDisappear(_ animated: Bool) {
+
+    }
+    override func viewDidDisappear(_ animated: Bool) {
         stopStreaming()
         viewModel.removeListener()
+    }
+    func setCamStatusBT(status: Bool) {
+        if self.connection.connected && status {
+            self.camStatusBT.setTitle("온라인", for: .normal)
+            self.camStatusBT.tintColor = UIColor(named: "CamStatusGreen")
+            self.retryPushBT.isHidden = true
+        } else {
+            self.camStatusBT.setTitle("오프라인", for: .normal)
+            self.camStatusBT.tintColor = UIColor(named: "CamStatusRed")
+            self.retryPushBT.isHidden = false
+        }
     }
   
     func settingUI() {
@@ -176,8 +206,7 @@ class StreamingVC: UIViewController {
         infoViewWidths.constant = 0
 //        greenColorView.backgroundColor = UIColor(named: "MainGreen")
         
-        fpsLabel.text = "0FPS"
-        fpsLabel.textColor = .white
+
         if #available(iOS 15.0, *) {
             changeWatchModeBT.configuration?.imagePadding = 10
         } else {
@@ -188,15 +217,19 @@ class StreamingVC: UIViewController {
         camNameTitle.text = "카메라 이름"
         camNameTitle.font = titleFont
         camNameTitle.textColor = .lightGray
-        
         camNameLabel.font = labelFont
         camNameLabel.textColor = .black
-        
+        fpsLabel.text = "0FPS"
+        fpsLabel.textColor = .white
+        fpsLabel.isHidden = true
         fpsSettingLabel.font = titleFont
         fpsSettingLabel.textColor = .lightGray
         fpsSettingLabel.text = "FPS"
+        fpsSettingLabel.isHidden = true
         
         fpsSG.addTarget(self, action: #selector(fpsSetting(_:)), for: .valueChanged)
+        fpsSG.isHidden = false
+        
         deviceVersionTitle.text = "카메라 버전"
         deviceVersionTitle.font = titleFont
         deviceVersionTitle.textColor = .lightGray
@@ -208,38 +241,41 @@ class StreamingVC: UIViewController {
     
     func setCamInfo() {
         UIDevice.current.isBatteryMonitoringEnabled = true
-        viewModel.currentCamInfo2(batteryLevel: batteryLevel, batteryState: batteryState) {
+        viewModel.currentCamInfo(batteryLevel: batteryLevel, batteryState: batteryState)
+        viewModel.currentCamInfo2() {
             let list = self.viewModel.camInfo
-            print("camInfo",list)
             self.camNameLabel.text = list["camName"] as? String
-            
+//            self.camState = list["srt"] as? Int
         }
 
         NotificationCenter.default.addObserver(self, selector: #selector(batteryLevelDidChange), name: UIDevice.batteryLevelDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(batteryStateDidChange), name: UIDevice.batteryStateDidChangeNotification, object: nil)
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        if Thread.isMainThread {
-//            self.fps = Int(stream.currentFPS)
-            fpsLabel.text = "\(stream.currentFPS.description)FPS"
-            if connection.connected {
-                camStatusBT.tintColor = UIColor(named: "CamStatusGreen")
-                camStatusBT.setTitle("온라인", for: .normal)
-                retryPushBT.isHidden = true
-            } else {
-                camStatusBT.tintColor = UIColor(named: "CamStatusRed")
-                camStatusBT.setTitle("오프라인", for: .normal)
-                retryPushBT.isHidden = false
-            }
-        }
-    }
+//    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+//        if Thread.isMainThread {
+////            self.fps = Int(stream.currentFPS)
+//            fpsLabel.text = "\(stream.currentFPS.description)FPS"
+//            if connection.connected {
+//                camStatusBT.tintColor = UIColor(named: "CamStatusGreen")
+//                camStatusBT.setTitle("온라인", for: .normal)
+//                retryPushBT.isHidden = true
+//            } else {
+//                camStatusBT.tintColor = UIColor(named: "CamStatusRed")
+//                camStatusBT.setTitle("오프라인", for: .normal)
+//                retryPushBT.isHidden = false
+//            }
+//        }
+//    }
     func streamSetting() {
-        stream = RTMPStream(connection: connection)
+//        stream = RTMPStream(connection: connection)
+        
+        stream = SRTStream(connection: connection)
         stream.attachAudio(AVCaptureDevice.default(for: .audio))
         stream.attachCamera(AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back), channel: 0)
-        connection.addEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
-        stream.addObserver(self, forKeyPath: "currentFPS", options: .new, context: nil)
+        
+//        connection.addEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
+//        stream.addObserver(self, forKeyPath: "currentFPS", options: .new, context: nil)
         liveView.videoGravity = AVLayerVideoGravity.resizeAspectFill
         liveView.attachStream(stream)
         stream.frameRate = 15
@@ -247,22 +283,35 @@ class StreamingVC: UIViewController {
             videoSize: .init(width: 720, height: 1280)
           )
         stream.bitrateStrategy = IOStreamVideoAdaptiveNetBitRateStrategy(mamimumVideoBitrate: VideoCodecSettings.default.bitRate)
+
     }
     func startStreaming() {
-        connection.connect(viewModel.pushURL)
+//        connection.connect(viewModel.pushURL)
 //        stream.publish(viewModel.userDeviceID)
-        stream.publish(viewModel.pushID)
+//        stream.publish(viewModel.pushID)
+        let url = urlModel.makeSrtUrl(hls: viewModel.userDeviceID, push: true)
+        connection.open(url)
+        stream.publish()
+        
+        
+    }
+    func reStartStreaming() {
+        stopStreaming()
+        startStreaming()
     }
     
     func stopStreaming() {
-        connection.close()
         stream.close()
-        stream.removeObserver(self, forKeyPath: "currentFPS")
-        connection.removeEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
-        stream.attachAudio(nil)
+        connection.close()
+//        stream.removeObserver(self, forKeyPath: "currentFPS")
+//        connection.removeEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
         stream.attachCamera(nil, channel: 0)
-        stream.attachCamera(nil, channel: 1)
-        NotificationCenter.default.removeObserver(self)
+//        stream.attachCamera(nil, channel: 1)
+        stream.attachAudio(nil)
+ 
+
+//        NotificationCenter.default.removeObserver(self)
+
     }
     func changePosition() {
         let position: AVCaptureDevice.Position = self.currentPosition == .back ? .front : .back
@@ -280,7 +329,6 @@ class StreamingVC: UIViewController {
             stream.videoSettings = VideoCodecSettings(
                 videoSize: .init(width: 1280, height: 720))
 //            stream.videoOrientation = deviceOrientation
-            print(deviceOrientation)
 //            stream.close()
 //            startStreaming()
             
@@ -297,31 +345,35 @@ class StreamingVC: UIViewController {
         if let orientation = DeviceUtil.videoOrientation(by: UIDevice.current.orientation) {
             stream.videoOrientation = orientation
         }
+        
     }
     
-    @objc
-    private func rtmpStatusHandler(_ notification: Notification) {
-        let e = Event.from(notification)
-//        print(e)
-        guard let data: ASObject = e.data as? ASObject, let code: String = data["code"] as? String else {
-            return
-        }
-        switch code {
-        case RTMPConnection.Code.connectSuccess.rawValue:
-            retryCount = 0
-//            stream.publish(viewModel.userDeviceID)
-            stream.publish(viewModel.pushID)
-        case RTMPConnection.Code.connectFailed.rawValue, RTMPConnection.Code.connectClosed.rawValue:
-            guard retryCount <= maxRetryCount else {
-                return
-            }
-            Thread.sleep(forTimeInterval: pow(2.0, Double(retryCount)))
-            print("Restart RTMP")
-            connection.connect(viewModel.pushURL)
-            retryCount += 1
-        default:
-            break
-        }
-    }
+//    @objc
+//    private func rtmpStatusHandler(_ notification: Notification) {
+//        let e = Event.from(notification)
+////        print(e)
+//        guard let data: ASObject = e.data as? ASObject, let code: String = data["code"] as? String else {
+//            return
+//        }
+//        switch code {
+//        case RTMPConnection.Code.connectSuccess.rawValue:
+//            retryCount = 0
+////            stream.publish(viewModel.userDeviceID)
+//            stream.publish(viewModel.pushID)
+//        case RTMPConnection.Code.connectFailed.rawValue, RTMPConnection.Code.connectClosed.rawValue:
+//            guard retryCount <= maxRetryCount else {
+//                return
+//            }
+//            Thread.sleep(forTimeInterval: pow(2.0, Double(retryCount)))
+//            print("Restart RTMP")
+//            connection.connect(viewModel.pushURL)
+//            retryCount += 1
+//        default:
+//            break
+//        }
+//    }
 
 }
+
+
+

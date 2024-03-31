@@ -9,6 +9,7 @@ import Foundation
 import AVFoundation
 
 class URLModel {
+    let fbModel = FirebaseModel.fb
     var pushURL = "rtmp://diddbsthttps://velog.io/@diddbstjr55/Swift-SRT-%EC%86%A1%EC%B6%9Cjr55.iptime.org/hls"
     func inputStringURL(hls: String) -> String {
         
@@ -26,16 +27,18 @@ class URLModel {
         return URL(string: "http://diddbstjr55.iptime.org/hls/\(hls).m3u8")!
     }
     func makeSrtUrl(hls: String, push: Bool) -> URL {
+        let hlsId = fbModel.userID + "@\(hls)"
         if push {
-            return URL(string: "srt://220.121.93.66:8080?streamid=uplive.yys.com/live/\(hls)")!
+            return URL(string: "srt://220.121.93.66:8080?streamid=uplive.yys.com/live/\(hlsId)")!
         } else {
-            return URL(string: "srt://220.121.93.66:8080?streamid=live.yys.com/live/\(hls)")!
+            return URL(string: "srt://220.121.93.66:8080?streamid=live.yys.com/live/\(hlsId)")!
         }
         
     }
     
     func playerItem(hls: String) -> AVPlayerItem {
-        let url = self.inputURL(hls: hls)
+//        let url = self.inputURL(hls: hls)
+        let url = makeSrtUrl(hls: hls, push: false)
         let playerItem = AVPlayerItem(url: url)
         playerItem.preferredForwardBufferDuration = TimeInterval(1.0)
         return playerItem

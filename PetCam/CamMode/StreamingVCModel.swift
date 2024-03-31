@@ -39,9 +39,6 @@ class StreamingVCModel {
         }
         return ""
     }
-    
-
-    
     func deviceName() -> String {
         let device = UIDevice.current
         let selName = "_\("deviceInfo")ForKey:"
@@ -56,30 +53,45 @@ class StreamingVCModel {
         let path = "PetCam/Users/\(userID)/CamList/\(userDeviceID)/"
         return path
     }
-    func currentCamInfo(batteryLevel: Float, batteryState: UIDevice.BatteryState) {
-        let path = "PetCam/Users/\(userID)/CamList/\(userDeviceID)/"
-        databaseRef.child(path).observeSingleEvent(of: .value) { data in
-            if data.value is NSDictionary {
-                self.setCamBatteryLevel(batteryLevel: batteryLevel)
-                self.setCamBatteryState(batteryState: batteryState)
-                self.setCamDate()
-            } else {
-                self.creatCam(batteryLevel: batteryLevel, batteryState: batteryState, deviceModelName: self.deviceModelName, camName: self.deviceModelName)
+    func checkCam(completion: @escaping (Bool) -> Void) {
+        let path = "PetCam/Users/\(userID)/CheckCam/\(userDeviceID)/"
+        databaseRef.child(path).observe(.value) { snapData in
+            var status = false
+            if let data = snapData.value as? Int {
+                if data == 1 {status = true} else {status = false}
             }
-            
+            completion(status)
         }
     }
     
-    func currentCamInfo2(batteryLevel: Float, batteryState: UIDevice.BatteryState, completion: @escaping () -> Void) {
+    func currentCamInfo(batteryLevel: Float, batteryState: UIDevice.BatteryState) {
+        let path = userCamPath()
+        print("currentCamInfo",path)
+        databaseRef.child(path).observeSingleEvent(of: .value) { data in
+            if let snapData =  data.value as? [String:Any] {
+                print("snap")
+                if snapData["camName"] is String {
+                    print("isSnapData")
+                    self.setCamBatteryLevel(batteryLevel: batteryLevel)
+                    self.setCamBatteryState()
+                    self.setCamDate()
+                } else {
+                    self.creatCam(batteryLevel: batteryLevel, batteryState: batteryState, deviceModelName: self.deviceModelName, camName: self.deviceModelName)
+                }
+            }else {
+                self.creatCam(batteryLevel: batteryLevel, batteryState: batteryState, deviceModelName: self.deviceModelName, camName: self.deviceModelName)
+            }
+        }
+    }
+        
+    
+    func currentCamInfo2(completion: @escaping () -> Void) {
         let path = "PetCam/Users/\(userID)/CamList/\(userDeviceID)/"
         databaseRef.child(path).observe(DataEventType.value) { data in
-            guard let snapData = data.value as? [String:Any]  else {
-                self.creatCam(batteryLevel: batteryLevel, batteryState: batteryState, deviceModelName: self.deviceModelName, camName: self.deviceModelName)
-                return }
-            self.setCamBatteryLevel(batteryLevel: batteryLevel)
-            self.setCamBatteryState(batteryState: batteryState)
-            self.setCamDate()
-            self.camInfo = snapData
+
+            if let snapData = data.value as? [String:Any]  {
+                self.camInfo = snapData
+            }
             completion()
         }
     }
@@ -87,10 +99,10 @@ class StreamingVCModel {
     func creatCam(batteryLevel: Float, batteryState: UIDevice.BatteryState, deviceModelName: String, camName: String) {
         let path = userCamPath()
         let date = Int(Date().timeIntervalSince1970)
-        let value = ["camName": deviceModelName, "hls":userDeviceID, "deviceModel":deviceModelName, "deviceVersion":deviceVersion, "date":date] as [String : Any]
+        let level = Int(batteryLevel*100)
+        let value = ["camName": deviceModelName, "hls":userDeviceID, "deviceModel":deviceModelName, "deviceVersion":deviceVersion, "date":date, "batteryLevel":level] as [String : Any]
         databaseRef.child(path).setValue(value)
-        setCamBatteryLevel(batteryLevel: batteryLevel)
-        setCamBatteryState(batteryState: batteryState)
+        setCamBatteryState()
     }
     func setCamBatteryLevel(batteryLevel: Float) {
         let path = userCamPath() + "batteryLevel/"
@@ -102,15 +114,14 @@ class StreamingVCModel {
         let path = userCamPath() + "date"
         databaseRef.child(path).setValue(date)
     }
-    func setCamBatteryState(batteryState: UIDevice.BatteryState) {
+    func setCamBatteryState() {
         let path = userCamPath() + "batteryState/"
-        print("batteryState", batteryState)
+        
+        var batteryState: UIDevice.BatteryState { UIDevice.current.batteryState }
         switch batteryState {
         case .unplugged, .unknown:
-            print("Not charging")
             databaseRef.child(path).setValue("NotCharging")
         case .charging, .full:
-            print("Charging")
             databaseRef.child(path).setValue("Charging")
         @unknown default:
             print("Nothing")
@@ -119,16 +130,15 @@ class StreamingVCModel {
     }
     func currentPosition(completion: @escaping () -> Void) {
         let path = userCamPath() + "position"
-        print(path)
         databaseRef.child(path).observe(DataEventType.value) { data in
-            guard let snapData = data.value as? Double else {return}
-            print(snapData)
+            guard data.value is Double else {return}
             completion()
         }
     }
     func removeListener() {
         let path = userCamPath() + "position"
         databaseRef.child(path).removeAllObservers()
+        databaseRef.child(userCamPath()).removeAllObservers()
     }
     func checkCameraPermission(){
        AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in

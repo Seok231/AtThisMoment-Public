@@ -29,7 +29,7 @@ extension UINavigationItem {
         button.setImage(UIImage(systemName: symbolName), for: .normal)
         button.addTarget(target, action: action, for: .touchUpInside)
 //        button.tintColor = UIColor(named: "FontColor")
-        button.tintColor = .white
+        button.tintColor = UIColor(named: "FontColor")
         
         let barButtonItem = UIBarButtonItem(customView: button)
         barButtonItem.customView?.translatesAutoresizingMaskIntoConstraints = false

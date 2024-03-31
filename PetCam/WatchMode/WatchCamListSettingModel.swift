@@ -38,14 +38,16 @@ class WatchCamListSettingModel {
         databaseRef.child(path).setValue(camName)
     }
     func removeCam(hls: String) {
-        let path = fbModel.creatUserChild() + "CamList/\(hls)"
+        let path = fbModel.creatUserChild() + "/CamList/\(hls)"
         databaseRef.child(path).removeValue()
     }
-    func batteryLabelSetting(level: Int, state: String) -> String {
+    func batteryLabelSetting(level: Int?, state: String?) -> String {
+        let df = "--%"
+        guard let lv = level else{return df }
         if state == "Charging" {
-            return "\(level.description)% [충전중]"
+            return "\(lv.description)% [충전중]"
         }
-        return "\(level.description)% [충전중 아님]"
+        return "\(lv.description)% [충전중 아님]"
         
     }
 }

@@ -28,7 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print(error)
         }
-        
         return true
     }
     //세로 고정

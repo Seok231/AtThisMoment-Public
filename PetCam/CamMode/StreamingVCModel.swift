@@ -26,6 +26,7 @@ class StreamingVCModel {
     let deviceVersion = UIDevice.current.systemVersion
     var pushURL = "rtmp://220.121.93.66:1935/live"
     var pushID = "ch1_s1"
+    @Published var camStatus = false
     @Published var camInfo = [:]
     var cancellables: Set<AnyCancellable> = []
     var deviceModelName: String {
@@ -53,14 +54,12 @@ class StreamingVCModel {
         let path = "PetCam/Users/\(userID)/CamList/\(userDeviceID)/"
         return path
     }
-    func checkCam(completion: @escaping (Bool) -> Void) {
+    func checkCam() {
         let path = "PetCam/Users/\(userID)/CheckCam/\(userDeviceID)/"
         databaseRef.child(path).observe(.value) { snapData in
-            var status = false
             if let data = snapData.value as? Int {
-                if data == 1 {status = true} else {status = false}
+                if data == 1 {self.camStatus = true} else {self.camStatus = false}
             }
-            completion(status)
         }
     }
     
@@ -72,9 +71,7 @@ class StreamingVCModel {
                 print("snap")
                 if snapData["camName"] is String {
                     print("isSnapData")
-                    self.setCamBatteryLevel(batteryLevel: batteryLevel)
-                    self.setCamBatteryState()
-                    self.setCamDate()
+                    self.startSetting(batteryLevel: batteryLevel)
                 } else {
                     self.creatCam(batteryLevel: batteryLevel, batteryState: batteryState, deviceModelName: self.deviceModelName, camName: self.deviceModelName)
                 }
@@ -88,7 +85,6 @@ class StreamingVCModel {
     func currentCamInfo2(completion: @escaping () -> Void) {
         let path = "PetCam/Users/\(userID)/CamList/\(userDeviceID)/"
         databaseRef.child(path).observe(DataEventType.value) { data in
-
             if let snapData = data.value as? [String:Any]  {
                 self.camInfo = snapData
             }
@@ -100,9 +96,34 @@ class StreamingVCModel {
         let path = userCamPath()
         let date = Int(Date().timeIntervalSince1970)
         let level = Int(batteryLevel*100)
-        let value = ["camName": deviceModelName, "hls":userDeviceID, "deviceModel":deviceModelName, "deviceVersion":deviceVersion, "date":date, "batteryLevel":level] as [String : Any]
+        let value = ["camName": deviceModelName, "hls":userDeviceID, "deviceModel":deviceModelName, "deviceVersion":deviceVersion, "date":date, "batteryLevel":level, "torch":false, "position":1] as [String : Any]
         databaseRef.child(path).setValue(value)
         setCamBatteryState()
+    }
+    func startSetting(batteryLevel: Float) {
+        let path = userCamPath()
+        let level = Int(batteryLevel*100)
+        let date = Int(Date().timeIntervalSince1970)
+        var state = ""
+        var batteryState: UIDevice.BatteryState { UIDevice.current.batteryState }
+        switch batteryState {
+        case .unplugged, .unknown:
+            state = "NotCharging"
+        case .charging, .full:
+            state = "Charging"
+        @unknown default:
+            print("Nothing")
+        }
+        let value = ["deviceVersion":deviceVersion, "date":date, "batteryLevel":level, "batteryState": state, "torch":false] as [String : Any]
+        databaseRef.child(path).updateChildValues(value)
+    }
+    func setOnTorch() {
+        let path = userCamPath() + "torch/"
+        databaseRef.child(path).setValue(true)
+    }
+    func setOffTorch() {
+        let path = userCamPath() + "torch/"
+        databaseRef.child(path).setValue(false)
     }
     func setCamBatteryLevel(batteryLevel: Float) {
         let path = userCamPath() + "batteryLevel/"

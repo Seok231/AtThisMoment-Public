@@ -20,28 +20,14 @@ struct FirebaseCamList: Codable {
     let camName: String
     let hls: String
     let date: Int
-    let batteryLevel: Int?
-    let batteryState: String?
+    let batteryLevel: Int
+    let batteryState: String
     let deviceModel: String
     let deviceVersion: String
-    let srt: Int?
+    let torch: Bool
 }
 
 class FirebaseModel: ObservableObject {
-//    static var fb: FirebaseModel = {
-//        let fb = FirebaseModel()
-//        guard let auth = Auth.auth().currentUser else {return fb}
-//        guard let name = auth.displayName else {return fb}
-//        guard let email = auth.email else {return fb}
-//        guard let photoURL = auth.photoURL else {return fb}
-//        let uid = auth.uid
-//        fb.userName = name
-//        fb.userEmail = email
-//        fb.userID = uid
-//        fb.userPhotoURL = photoURL
-////        fb.creatUser()
-//        return fb
-//    }()
     static var fb = FirebaseModel()
     private init () {}
     var moveVC = MoveViewControllerModel()
@@ -69,7 +55,7 @@ class FirebaseModel: ObservableObject {
         let value = ["userEmail" : userEmail, "userID" : userID]
         databaseRef.child(child ).setValue(value)
     }
-    func signIn() {
+    func updateUserInfo() {
         guard let auth = Auth.auth().currentUser else {return}
         print("fb auth", auth)
         guard let name = auth.displayName else {return}
@@ -94,20 +80,36 @@ class FirebaseModel: ObservableObject {
         camList = []
         
     }
-    
-    // (Int(Date().timeIntervalSince1970)).description
-    func camListUpdate(completion: @escaping () -> Void) {
+    func singleEventUpdate() {
         let child = creatUserChild() + "/CamList/"
-        print("camListUpdate", child)
-        print("userName", userName)
-        databaseRef.child(child).observe(DataEventType.value) { DataSnapshot in
-            guard let snapData = DataSnapshot.value as? [String:Any] else{return}
+        databaseRef.child(child).observeSingleEvent(of: .value){ DataSnapshot in
+            guard let snapData = DataSnapshot.value as? [String:Any] else{
+                self.camList = []
+                return}
             let data = try! JSONSerialization.data(withJSONObject: Array(snapData.values), options: [])
             do {
                 let decoder = JSONDecoder()
                 self.camList = try decoder.decode([FirebaseCamList].self, from: data)
                 self.camList.sort(by: {$0.date > $1.date})
-                completion()
+            } catch let error {
+                print("get Firebase data error", error)
+            }
+        }
+    }
+    // (Int(Date().timeIntervalSince1970)).description
+    func camListUpdate() {
+        let child = creatUserChild() + "/CamList/"
+        print("camListUpdate", child)
+        print("userName", userName)
+        databaseRef.child(child).observe(DataEventType.value) { DataSnapshot in
+            guard let snapData = DataSnapshot.value as? [String:Any] else{
+                self.camList = []
+                return }
+            let data = try! JSONSerialization.data(withJSONObject: Array(snapData.values), options: [])
+            do {
+                let decoder = JSONDecoder()
+                self.camList = try decoder.decode([FirebaseCamList].self, from: data)
+                self.camList.sort(by: {$0.date > $1.date})
             } catch let error {
                 print("get Firebase data error", error)
             }
@@ -119,6 +121,7 @@ class FirebaseModel: ObservableObject {
         let child = creatUserChild() + "/CheckCam/"
         databaseRef.child(child).observe(DataEventType.value) { snapData in
             if let data = snapData.value as? [String:Int] {
+                
                 self.checkCamList = data
             }
             completion()

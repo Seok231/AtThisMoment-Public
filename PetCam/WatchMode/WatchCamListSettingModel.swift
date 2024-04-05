@@ -34,7 +34,8 @@ class WatchCamListSettingModel {
         return alert
     }
     func updateCamName(camName: String, deviceID: String) {
-        let path = fbModel.creatUserChild() + "CamList/\(deviceID)/camName"
+        let path = fbModel.creatUserChild() + "/CamList/\(deviceID)/camName"
+        print(path)
         databaseRef.child(path).setValue(camName)
     }
     func removeCam(hls: String) {

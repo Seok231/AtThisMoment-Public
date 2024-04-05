@@ -32,16 +32,23 @@ class WatchCamListSettingVC: UIViewController {
     var linkStatus: Bool?
     var camList: FirebaseCamList? {
         didSet {
-            if let list = camList {
-                camNameLabel.text = list.camName
-                deviceModelLabel.text = list.deviceModel
-                deviceVersionLabel.text = list.deviceVersion
-                let battery = viewModel.batteryLabelSetting(level: list.batteryLevel, state: list.batteryState)
-                if let status = linkStatus {
-                    camOnoffLabel.text = status ? "온라인" : "오프라인"
-                    batteryLabel.text = status ? battery : "--%"
-                }
-            }
+            guard let list = camList else {return}
+            setCamList(list: list)
+        }
+    }
+    
+    func setCamList(list: FirebaseCamList) {
+        camNameLabel.text = list.camName
+        deviceModelLabel.text = list.deviceModel
+        deviceVersionLabel.text = list.deviceVersion
+        let battery = viewModel.batteryLabelSetting(level: list.batteryLevel, state: list.batteryState)
+        guard let statuse =  fbModel.checkCamList[list.hls] else {return}
+        if statuse == 1 {
+            camOnoffLabel.text = "온라인"
+            batteryLabel.text = "\(battery)"
+        } else {
+            camOnoffLabel.text = "오프라인"
+            batteryLabel.text = "--%"
         }
     }
     @IBAction func camNameSettingAction(_ sender: Any) {
@@ -76,6 +83,7 @@ class WatchCamListSettingVC: UIViewController {
         alert.addAction(UIAlertAction(title: "확인", style: .default) { action in
             if let camList = self.camList {
                 self.viewModel.removeCam(hls: camList.hls)
+                self.fbModel.singleEventUpdate()
                 self.dismiss(animated: true)
             }
         })
@@ -93,7 +101,7 @@ class WatchCamListSettingVC: UIViewController {
 //        let fontColor = UIColor(named: "FontColor")
         
         closeLineView.layer.cornerRadius = 2
-        camNameLineView.backgroundColor = .gray
+        camNameLineView.backgroundColor = .lightGray
         camInfoView.backgroundColor = UIColor(named: "MainGreen")
         camInfoView.layer.cornerRadius = 10
         camNameTitleLabel.text = "카메라 이름"

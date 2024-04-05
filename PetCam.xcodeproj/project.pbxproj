@@ -14,7 +14,6 @@
 		9C1B14B42B7EFDD500BA9E64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C1B14B22B7EFDD500BA9E64 /* Main.storyboard */; };
 		9C1B14B72B7EFDD500BA9E64 /* PetCam.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B14B52B7EFDD500BA9E64 /* PetCam.xcdatamodeld */; };
 		9C1B14B92B7EFDD600BA9E64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C1B14B82B7EFDD600BA9E64 /* Assets.xcassets */; };
-		9C1B14BC2B7EFDD600BA9E64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C1B14BA2B7EFDD600BA9E64 /* LaunchScreen.storyboard */; };
 		9C1B14C72B7EFDD600BA9E64 /* PetCamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B14C62B7EFDD600BA9E64 /* PetCamTests.swift */; };
 		9C1B14D12B7EFDD600BA9E64 /* PetCamUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B14D02B7EFDD600BA9E64 /* PetCamUITests.swift */; };
 		9C1B14D32B7EFDD600BA9E64 /* PetCamUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B14D22B7EFDD600BA9E64 /* PetCamUITestsLaunchTests.swift */; };
@@ -23,6 +22,7 @@
 		9C1B14E82B7F09EA00BA9E64 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 9C1B14E72B7F09EA00BA9E64 /* GoogleSignIn */; };
 		9C1B14EC2B7F0C5400BA9E64 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C1B14EB2B7F0C5400BA9E64 /* GoogleService-Info.plist */; };
 		9C1B14EF2B7F12F700BA9E64 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9C1B14EE2B7F12F700BA9E64 /* FirebaseAuth */; };
+		9C4B5AAE2BBD5CFF00AA4FCA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9C4B5AAD2BBD5CFF00AA4FCA /* Lottie */; };
 		9C5275B32B8703D300B885A9 /* URLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5275B22B8703D300B885A9 /* URLModel.swift */; };
 		9C8E296B2B8842F4000A113D /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8E296A2B8842F4000A113D /* NavigationController.swift */; };
 		9C9D57CC2B7F1CFE00228CC4 /* SelectModeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9D57CA2B7F1CFE00228CC4 /* SelectModeVC.swift */; };
@@ -37,9 +37,6 @@
 		9C9D57EF2B83587200228CC4 /* CamMode.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C9D57EE2B83587200228CC4 /* CamMode.storyboard */; };
 		9C9D57F12B8358BB00228CC4 /* StreamingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9D57F02B8358BB00228CC4 /* StreamingVC.swift */; };
 		9CAF52852B8E131F0087D940 /* WatchCamListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAF52842B8E131F0087D940 /* WatchCamListModel.swift */; };
-		9CBDB38B2B89C812005EA5EA /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBDB38A2B89C812005EA5EA /* LaunchScreen.swift */; };
-		9CBDB3972B8C48C6005EA5EA /* LaunchScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBDB3952B8C48C6005EA5EA /* LaunchScreenVC.swift */; };
-		9CBDB3982B8C48C6005EA5EA /* LaunchScreenVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CBDB3962B8C48C6005EA5EA /* LaunchScreenVC.xib */; };
 		9CBDB39A2B8C7A1D005EA5EA /* StreamingVCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBDB3992B8C7A1D005EA5EA /* StreamingVCModel.swift */; };
 		9CC422C52B9DC8BF000DBC09 /* StreamingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC422C42B9DC8BF000DBC09 /* StreamingInfo.swift */; };
 		9CC422C72B9F08EB000DBC09 /* TestPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC422C62B9F08EB000DBC09 /* TestPlayer.swift */; };
@@ -52,8 +49,8 @@
 		9CCA80A52B91E54E000E3312 /* WatchCamListSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA80A42B91E54E000E3312 /* WatchCamListSettingModel.swift */; };
 		9CD86C0E2BBAC11300FD1E67 /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9CD86C0D2BBAC11300FD1E67 /* HaishinKit */; };
 		9CD86C102BBAC11300FD1E67 /* SRTHaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9CD86C0F2BBAC11300FD1E67 /* SRTHaishinKit */; };
-		9CD86C122BBBB4DC00FD1E67 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD86C112BBBB4DC00FD1E67 /* Stream.swift */; };
 		9CE06A702B85B7B700DBF073 /* MoveViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE06A6F2B85B7B700DBF073 /* MoveViewControllerModel.swift */; };
+		9CF50CB52BBE9B3400C12F3F /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CF50CB42BBE9B3400C12F3F /* loading.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,7 +92,6 @@
 		9C1B14B32B7EFDD500BA9E64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9C1B14B62B7EFDD500BA9E64 /* PetCam.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PetCam.xcdatamodel; sourceTree = "<group>"; };
 		9C1B14B82B7EFDD600BA9E64 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9C1B14BB2B7EFDD600BA9E64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9C1B14BD2B7EFDD600BA9E64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C1B14C22B7EFDD600BA9E64 /* PetCamTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetCamTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C1B14C62B7EFDD600BA9E64 /* PetCamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCamTests.swift; sourceTree = "<group>"; };
@@ -118,9 +114,6 @@
 		9C9D57EE2B83587200228CC4 /* CamMode.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CamMode.storyboard; sourceTree = "<group>"; };
 		9C9D57F02B8358BB00228CC4 /* StreamingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingVC.swift; sourceTree = "<group>"; };
 		9CAF52842B8E131F0087D940 /* WatchCamListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCamListModel.swift; sourceTree = "<group>"; };
-		9CBDB38A2B89C812005EA5EA /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
-		9CBDB3952B8C48C6005EA5EA /* LaunchScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenVC.swift; sourceTree = "<group>"; };
-		9CBDB3962B8C48C6005EA5EA /* LaunchScreenVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LaunchScreenVC.xib; sourceTree = "<group>"; };
 		9CBDB3992B8C7A1D005EA5EA /* StreamingVCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingVCModel.swift; sourceTree = "<group>"; };
 		9CC422C42B9DC8BF000DBC09 /* StreamingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingInfo.swift; sourceTree = "<group>"; };
 		9CC422C62B9F08EB000DBC09 /* TestPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPlayer.swift; sourceTree = "<group>"; };
@@ -131,8 +124,8 @@
 		9CC422D32BA04A5E000DBC09 /* NoticeInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeInfoVC.swift; sourceTree = "<group>"; };
 		9CCA80A22B9186F9000E3312 /* WatchCamListSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCamListSettingVC.swift; sourceTree = "<group>"; };
 		9CCA80A42B91E54E000E3312 /* WatchCamListSettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCamListSettingModel.swift; sourceTree = "<group>"; };
-		9CD86C112BBBB4DC00FD1E67 /* Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		9CE06A6F2B85B7B700DBF073 /* MoveViewControllerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveViewControllerModel.swift; sourceTree = "<group>"; };
+		9CF50CB42BBE9B3400C12F3F /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = loading.json; path = Assets/loading.json; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +134,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C1B14E12B7EFE6E00BA9E64 /* FirebaseDatabase in Frameworks */,
+				9C4B5AAE2BBD5CFF00AA4FCA /* Lottie in Frameworks */,
 				9CD86C0E2BBAC11300FD1E67 /* HaishinKit in Frameworks */,
 				9CD86C102BBAC11300FD1E67 /* SRTHaishinKit in Frameworks */,
 				9C1B14E32B7EFE6E00BA9E64 /* FirebaseStorage in Frameworks */,
@@ -199,11 +193,8 @@
 				9C1B14E52B7EFED800BA9E64 /* WatchMode */,
 				9C1B14E42B7EFEB200BA9E64 /* CamMode */,
 				9C1B14B22B7EFDD500BA9E64 /* Main.storyboard */,
+				9CF50CB42BBE9B3400C12F3F /* loading.json */,
 				9C1B14B82B7EFDD600BA9E64 /* Assets.xcassets */,
-				9C1B14BA2B7EFDD600BA9E64 /* LaunchScreen.storyboard */,
-				9CBDB38A2B89C812005EA5EA /* LaunchScreen.swift */,
-				9CBDB3952B8C48C6005EA5EA /* LaunchScreenVC.swift */,
-				9CBDB3962B8C48C6005EA5EA /* LaunchScreenVC.xib */,
 				9C1B14BD2B7EFDD600BA9E64 /* Info.plist */,
 				9C1B14EB2B7F0C5400BA9E64 /* GoogleService-Info.plist */,
 				9C1B14B52B7EFDD500BA9E64 /* PetCam.xcdatamodeld */,
@@ -233,7 +224,6 @@
 			children = (
 				9C9D57EE2B83587200228CC4 /* CamMode.storyboard */,
 				9C9D57F02B8358BB00228CC4 /* StreamingVC.swift */,
-				9CD86C112BBBB4DC00FD1E67 /* Stream.swift */,
 				9CBDB3992B8C7A1D005EA5EA /* StreamingVCModel.swift */,
 				9CC422C42B9DC8BF000DBC09 /* StreamingInfo.swift */,
 			);
@@ -266,9 +256,9 @@
 				9C9D57DD2B7F591000228CC4 /* WatchCamPlayer */,
 				9C9D57D22B7F542F00228CC4 /* WatchCamListVC.swift */,
 				9CAF52842B8E131F0087D940 /* WatchCamListModel.swift */,
-				9C67163F2BB1536100794A39 /* WatchTableCell */,
 				9CCA80A22B9186F9000E3312 /* WatchCamListSettingVC.swift */,
 				9CCA80A42B91E54E000E3312 /* WatchCamListSettingModel.swift */,
+				9C67163F2BB1536100794A39 /* WatchTableCell */,
 			);
 			name = WatchCam;
 			sourceTree = "<group>";
@@ -338,6 +328,7 @@
 				9C1B14EE2B7F12F700BA9E64 /* FirebaseAuth */,
 				9CD86C0D2BBAC11300FD1E67 /* HaishinKit */,
 				9CD86C0F2BBAC11300FD1E67 /* SRTHaishinKit */,
+				9C4B5AAD2BBD5CFF00AA4FCA /* Lottie */,
 			);
 			productName = PetCam;
 			productReference = 9C1B14A92B7EFDD500BA9E64 /* PetCam.app */;
@@ -415,6 +406,7 @@
 				9C1B14DF2B7EFE6E00BA9E64 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				9C1B14E62B7F09EA00BA9E64 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				9CD868802BBAB61B00FD1E67 /* XCRemoteSwiftPackageReference "HaishinKit.swift" */,
+				9C4B5AAC2BBD5CFF00AA4FCA /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = 9C1B14AA2B7EFDD500BA9E64 /* Products */;
 			projectDirPath = "";
@@ -434,11 +426,10 @@
 			files = (
 				9CC422D02BA01F13000DBC09 /* NoticeCell.xib in Resources */,
 				9C9D57E52B80924B00228CC4 /* WatchTableCell.xib in Resources */,
-				9C1B14BC2B7EFDD600BA9E64 /* LaunchScreen.storyboard in Resources */,
+				9CF50CB52BBE9B3400C12F3F /* loading.json in Resources */,
 				9C1B14EC2B7F0C5400BA9E64 /* GoogleService-Info.plist in Resources */,
 				9C1B14B92B7EFDD600BA9E64 /* Assets.xcassets in Resources */,
 				9C1B14B42B7EFDD500BA9E64 /* Main.storyboard in Resources */,
-				9CBDB3982B8C48C6005EA5EA /* LaunchScreenVC.xib in Resources */,
 				9C9D57EF2B83587200228CC4 /* CamMode.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -468,7 +459,6 @@
 				9CBDB39A2B8C7A1D005EA5EA /* StreamingVCModel.swift in Sources */,
 				9C9D57EA2B809D2C00228CC4 /* UserInfoVC.swift in Sources */,
 				9CCA80A32B9186F9000E3312 /* WatchCamListSettingVC.swift in Sources */,
-				9CBDB38B2B89C812005EA5EA /* LaunchScreen.swift in Sources */,
 				9CCA80A52B91E54E000E3312 /* WatchCamListSettingModel.swift in Sources */,
 				9C1B14B12B7EFDD500BA9E64 /* SignInVC.swift in Sources */,
 				9C9D57E12B805E0700228CC4 /* PlayerModel.swift in Sources */,
@@ -483,12 +473,10 @@
 				9C5275B32B8703D300B885A9 /* URLModel.swift in Sources */,
 				9CC422CF2BA01F13000DBC09 /* NoticeCell.swift in Sources */,
 				9CC422D42BA04A5E000DBC09 /* NoticeInfoVC.swift in Sources */,
-				9CD86C122BBBB4DC00FD1E67 /* Stream.swift in Sources */,
 				9C9D57E42B80924B00228CC4 /* WatchTableCell.swift in Sources */,
 				9C1B14AF2B7EFDD500BA9E64 /* SceneDelegate.swift in Sources */,
 				9CC422CA2BA01E64000DBC09 /* NoticeVC.swift in Sources */,
 				9C9D57D32B7F542F00228CC4 /* WatchCamListVC.swift in Sources */,
-				9CBDB3972B8C48C6005EA5EA /* LaunchScreenVC.swift in Sources */,
 				9C9D57D12B7F537600228CC4 /* WatchTabbar.swift in Sources */,
 				9C9D57CC2B7F1CFE00228CC4 /* SelectModeVC.swift in Sources */,
 				9CE06A702B85B7B700DBF073 /* MoveViewControllerModel.swift in Sources */,
@@ -536,14 +524,6 @@
 				9C1B14B32B7EFDD500BA9E64 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		9C1B14BA2B7EFDD600BA9E64 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9C1B14BB2B7EFDD600BA9E64 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -683,7 +663,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera permissions for taking videos";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Mic permissions for taking videos";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = Main.storyboard;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenVC.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -719,7 +699,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera permissions for taking videos";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Mic permissions for taking videos";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = Main.storyboard;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenVC.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -874,6 +854,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		9C4B5AAC2BBD5CFF00AA4FCA /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.4.1;
+			};
+		};
 		9CD868802BBAB61B00FD1E67 /* XCRemoteSwiftPackageReference "HaishinKit.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/shogo4405/HaishinKit.swift.git";
@@ -904,6 +892,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9C1B14DF2B7EFE6E00BA9E64 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		9C4B5AAD2BBD5CFF00AA4FCA /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9C4B5AAC2BBD5CFF00AA4FCA /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 		9CD86C0D2BBAC11300FD1E67 /* HaishinKit */ = {
 			isa = XCSwiftPackageProductDependency;

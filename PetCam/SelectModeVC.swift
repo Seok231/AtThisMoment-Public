@@ -30,7 +30,7 @@ class SelectModeVC: UIViewController {
         super.viewDidLoad()
         uiSetting()
         fbModel.removeObseve()
-        fbModel.signIn()
+        fbModel.updateUserInfo()
     }
 //    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
 //            return .portrait

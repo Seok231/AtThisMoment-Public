@@ -42,7 +42,8 @@ class UserInfoVC: UIViewController {
         self.navigationItem.title = "내정보"
     }
     func setLayer() {
-        fbModel.signIn()
+        
+        fbModel.updateUserInfo()
         userImageView.image = UIImage(named: "testImage")
         if let photoURL = fbModel.userPhotoURL {
             let userImage = viewModel.setUserImage(photoURL: photoURL)

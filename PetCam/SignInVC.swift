@@ -40,7 +40,7 @@ class SignInVC: UIViewController {
             let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
                 Auth.auth().signIn(with: credential) { result, error in
                     let fbModel = FirebaseModel.fb
-                    fbModel.signIn()
+                    fbModel.updateUserInfo()
                     fbModel.creatUser()
                     self.present(self.moveVC.moveToVC(storyboardName: "Main", className: "SelectModeVC"), animated: true)
                 }
@@ -117,7 +117,7 @@ extension SignInVC: ASAuthorizationControllerDelegate {
                 })
                 
                 let fbModel = FirebaseModel.fb
-                fbModel.signIn()
+                fbModel.updateUserInfo()
                 fbModel.creatUser()
                 if let auth = Auth.auth().currentUser {
                     print("credential", auth.uid)

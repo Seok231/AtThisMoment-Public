@@ -20,9 +20,13 @@ class WatchCamListVC: UIViewController {
     var linkStatusDict = [String: Bool]()
     var cancellables: Set<AnyCancellable> = []
     let refreshControl = UIRefreshControl()
+    let userDeviceID = UIDevice.current.identifierForVendor!.uuidString
     override func viewWillDisappear(_ animated: Bool) {
         print("viewWillDisappear")
         fbModel.removeObseve()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        print("Will")
     }
     override func viewDidLoad() {
         self.view.backgroundColor = UIColor(named: "BackgroundColor")
@@ -31,10 +35,12 @@ class WatchCamListVC: UIViewController {
         fbModel.updateCheckCam{
             self.camListTableView.reloadData()
         }
-        fbModel.camListUpdate {
+        fbModel.camListUpdate()
+        fbModel.$camList.sink { list in
             self.camListTableView.reloadData()
-        }
+        }.store(in: &cancellables)
         initRefresh()
+        print("deviceId", userDeviceID)
     }
     func initRefresh() {
         refreshControl.addTarget(self, action: #selector(refreshTable(refresh:)), for: .valueChanged)
@@ -43,7 +49,7 @@ class WatchCamListVC: UIViewController {
     }
     @objc func refreshTable(refresh: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            
+            print(self.fbModel.camList)
             self.camListTableView.reloadData()
             
             refresh.endRefreshing()
@@ -99,8 +105,8 @@ extension WatchCamListVC: UITableViewDelegate, UITableViewDataSource {
         
         cell.settingBT.addTarget(self, action: #selector(cellSetting(sender:)), for: .touchUpInside)
         
-        cell.thumbnailView.isUserInteractionEnabled = status
-        cell.infoView.isUserInteractionEnabled = status
+//        cell.thumbnailView.isEnabled = status
+//        cell.infoView.isUserInteractionEnabled = status
         
         cell.camStatusBT.tintColor = status ? vm.statuseGreenColor : vm.statuseRedColor
         cell.camStatusBT.setTitle(camStatus, for: .normal)
@@ -126,15 +132,22 @@ extension WatchCamListVC: UITableViewDelegate, UITableViewDataSource {
 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let playLiveVC = self.storyboard?.instantiateViewController(withIdentifier: "CamPlayerVC") as? CamPlayerVC else { return }
+        let fb = fbModel.camList[indexPath.row]
+        let vm = viewModel
+        let status = vm.checkCam(hls: fb.hls)
         
-        playLiveVC.modalTransitionStyle = .crossDissolve
-        playLiveVC.modalPresentationStyle = .overFullScreen
-        self.present(playLiveVC, animated: true, completion: nil)
-        
-        playLiveVC.camInfo = fbModel.camList[indexPath.row]
-        playLiveVC.listIndex = indexPath.row
-        
+        if status {
+            guard let playLiveVC = self.storyboard?.instantiateViewController(withIdentifier: "CamPlayerVC") as? CamPlayerVC else { return }
+            
+            playLiveVC.modalTransitionStyle = .crossDissolve
+            playLiveVC.modalPresentationStyle = .overFullScreen
+            self.present(playLiveVC, animated: true, completion: nil)
+            
+            playLiveVC.camInfo = fbModel.camList[indexPath.row]
+            playLiveVC.listIndex = indexPath.row
+            
+        }
+
     }
     
 }

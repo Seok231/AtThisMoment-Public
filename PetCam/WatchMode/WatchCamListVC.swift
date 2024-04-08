@@ -111,8 +111,8 @@ extension WatchCamListVC: UITableViewDelegate, UITableViewDataSource {
         cell.camStatusBT.tintColor = status ? vm.statuseGreenColor : vm.statuseRedColor
         cell.camStatusBT.setTitle(camStatus, for: .normal)
         cell.offlineLabel.isHidden = status
-        cell.thumbnailView.image = status ? UIImage(named: "testImage") : nil
-//        cell.thumbnailView.backgroundColor = status ? UIColor(named: "MainGreen") : UIColor(named: "CamListCell")
+//        cell.thumbnailView.image = status ? UIImage(named: "testImage") : nil
+        cell.thumbnailView.backgroundColor = status ? UIColor(named: "MainGreen") : UIColor(named: "CamListCell")
         
         cell.batteryStatusBT.setImage(batteryImage, for: .normal)
         cell.batteryStatusBT.setTitle(batteryLevel, for: .normal)

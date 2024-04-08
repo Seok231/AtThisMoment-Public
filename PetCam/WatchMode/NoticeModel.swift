@@ -13,6 +13,7 @@ struct NoticeList: Codable {
     let date: Double
     let notice: String
     let title: String
+    let titleDate: String
 }
 
 class NoticeModel {

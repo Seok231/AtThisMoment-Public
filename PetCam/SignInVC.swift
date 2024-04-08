@@ -17,7 +17,7 @@ class SignInVC: UIViewController {
 //    let fbModel = FirebaseModel.fb
 
     let moveVC = MoveViewControllerModel()
-    @IBOutlet weak var signInAppleBT: ASAuthorizationAppleIDButton!
+    @IBOutlet weak var appleSignInView: UIImageView!
     fileprivate var currentNonce: String?
     @IBOutlet weak var appleSignInBT: UIButton!
     @IBOutlet weak var googleSignIn: GIDSignInButton!
@@ -33,10 +33,7 @@ class SignInVC: UIViewController {
             GIDSignIn.sharedInstance.signIn(withPresenting: self) {
                 [unowned self] result, error in
             guard error == nil else {return}
-                guard let user = result?.user, let idToken = user.idToken?.tokenString else {
-                    print("test")
-                    return
-                }
+                guard let user = result?.user, let idToken = user.idToken?.tokenString else {return}
             let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
                 Auth.auth().signIn(with: credential) { result, error in
                     let fbModel = FirebaseModel.fb
@@ -54,6 +51,7 @@ class SignInVC: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         userInfo()
+//        appleSignInBT.tintColor = .black
         
     }
     func userInfo() {
@@ -73,9 +71,12 @@ class SignInVC: UIViewController {
         //이미지뷰에 제스처인식기 연결
         googleSignIn.addGestureRecognizer(tapImageViewRecognizer)
         
+//        appleSignInBT.setImage(UIImage(named: "appleBTW"), for: .normal)
+//        appleSignInBT.setTitle("", for: .normal)
+        appleSignInView.image = UIImage(named: "appleid_button")
+        googleSignIn.style = .wide
+        googleSignIn.colorScheme = .light
         
-        let bt = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
-        signInAppleBT = bt
     }
     
     

@@ -35,8 +35,10 @@ class NoticeVC: UIViewController {
     }
     @objc func refreshTable(refresh: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.viewModel.currentNotices {
+                self.tableView.reloadData()
+            }
             
-            self.tableView.reloadData()
             
             refresh.endRefreshing()
         }
@@ -62,7 +64,7 @@ extension NoticeVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NoticeCell", for: indexPath) as! NoticeCell
         let list = viewModel.noticeList[indexPath.row]
         cell.titleLabel.text = list.title
-        cell.dateLabel.text = list.date.description
+        cell.dateLabel.text = list.titleDate
         cell.selectionStyle = .none
         return cell
     }

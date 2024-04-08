@@ -16,9 +16,7 @@ class NoticeCell: UITableViewCell {
         
         self.backgroundColor = UIColor(named: "BackgroundColor")
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
-//        titleLabel.textColor = .black
-        
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         dateLabel.font = UIFont.boldSystemFont(ofSize: 10)
         dateLabel.textColor = .darkGray
     }

@@ -41,6 +41,7 @@ class SelectModeVC: UIViewController {
         camModeBT.backgroundColor = UIColor(named: "MainGreen")
         watchModeBT.backgroundColor = UIColor(named: "MainGreen")
         camModeBT.layer.cornerRadius = 20
+        camModeBT.setTitle("카메라 모드 \n 이 기기를 카메라로 사용할 수 있습니다.", for: .normal)
         watchModeBT.layer.cornerRadius = 20
         camModeBT.tintColor = .white
         watchModeBT.tintColor = .white

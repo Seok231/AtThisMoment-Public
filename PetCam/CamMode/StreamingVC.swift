@@ -14,7 +14,6 @@ import Combine
 import Photos
 
 
-
 class StreamingVC: UIViewController {
     
     @IBOutlet weak var torchBT: UIButton!
@@ -87,6 +86,7 @@ class StreamingVC: UIViewController {
         connection.close()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.startStreaming()
+            
         }
     }
     @IBAction func infoViewCloseAction(_ sender: Any) {
@@ -137,7 +137,6 @@ class StreamingVC: UIViewController {
         viewModel.checkCameraPermission()
         setCamInfo()
         streamSetting()
-        
         settingUI()
         viewModel.currentPosition {
             self.changePosition()
@@ -219,7 +218,8 @@ class StreamingVC: UIViewController {
         connection.open(url)
         stream.publish()
         stream.videoSettings = VideoCodecSettings(
-            videoSize: .init(width: 720, height: 1280)
+            videoSize: .init(width: 720, height: 1280),
+            bitRate: 640 * 1000
           )
  
     }
@@ -316,6 +316,7 @@ class StreamingVC: UIViewController {
         fpsSettingLabel.text = "FPS"
 //        fpsSettingLabel.isHidden = true
         
+        fpsSG.backgroundColor = .lightGray
         fpsSG.addTarget(self, action: #selector(fpsSetting(_:)), for: .valueChanged)
         fpsSG.isHidden = false
         

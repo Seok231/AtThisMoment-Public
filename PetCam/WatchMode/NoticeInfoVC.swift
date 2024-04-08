@@ -21,7 +21,7 @@ class NoticeInfoVC: UIViewController {
         
         self.view.backgroundColor = UIColor(named: "BackgroundColor")
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 30)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         dateLabel.font = UIFont.boldSystemFont(ofSize: 10)
         noticeTextView.font = UIFont.boldSystemFont(ofSize: 17)
         titleLineView.backgroundColor = .lightGray
@@ -44,7 +44,7 @@ class NoticeInfoVC: UIViewController {
         guard let list = notice else {return}
         print(list)
         titleLabel.text = list.title
-        dateLabel.text = list.date.description
+        dateLabel.text = list.titleDate
         noticeTextView.text = list.notice
     }
 }

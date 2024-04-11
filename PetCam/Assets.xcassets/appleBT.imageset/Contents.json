@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "appleBT.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "appleid_button@4x (2).png",
       "idiom" : "universal",
       "scale" : "2x"
     },

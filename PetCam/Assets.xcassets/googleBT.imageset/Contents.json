@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "ios_light_sq_SI@2x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "googleBT.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

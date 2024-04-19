@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,9 +20,19 @@
 		9C1B14E12B7EFE6E00BA9E64 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 9C1B14E02B7EFE6E00BA9E64 /* FirebaseDatabase */; };
 		9C1B14E32B7EFE6E00BA9E64 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9C1B14E22B7EFE6E00BA9E64 /* FirebaseStorage */; };
 		9C1B14E82B7F09EA00BA9E64 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 9C1B14E72B7F09EA00BA9E64 /* GoogleSignIn */; };
-		9C1B14EC2B7F0C5400BA9E64 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C1B14EB2B7F0C5400BA9E64 /* GoogleService-Info.plist */; };
 		9C1B14EF2B7F12F700BA9E64 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9C1B14EE2B7F12F700BA9E64 /* FirebaseAuth */; };
+		9C454ED12BC453DF002C0BD1 /* NetStreamSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C454ED02BC453DF002C0BD1 /* NetStreamSwitcher.swift */; };
 		9C4B5AAE2BBD5CFF00AA4FCA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9C4B5AAD2BBD5CFF00AA4FCA /* Lottie */; };
+		9C4C96B12BCB7DA8007B36B6 /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9C4C96B02BCB7DA8007B36B6 /* HaishinKit */; };
+		9C4C96B32BCB7DA8007B36B6 /* SRTHaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9C4C96B22BCB7DA8007B36B6 /* SRTHaishinKit */; };
+		9C4C96B62BCB9C92007B36B6 /* AddCamCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C4C96B52BCB9C92007B36B6 /* AddCamCell.xib */; };
+		9C4C96B72BCB9C92007B36B6 /* AddCamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C96B42BCB9C92007B36B6 /* AddCamCell.swift */; };
+		9C4C96C52BCBF121007B36B6 /* DetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C4C96C42BCBF121007B36B6 /* DetailCell.xib */; };
+		9C4C96C62BCBF121007B36B6 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C96C32BCBF121007B36B6 /* DetailCell.swift */; };
+		9C4C96C82BCBF474007B36B6 /* SettingDeviceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C96C72BCBF474007B36B6 /* SettingDeviceVC.swift */; };
+		9C4C96CC2BCBF69B007B36B6 /* SettingDeviceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C4C96CB2BCBF69B007B36B6 /* SettingDeviceCell.xib */; };
+		9C4C96CD2BCBF69B007B36B6 /* SettingDeviceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C96CA2BCBF69B007B36B6 /* SettingDeviceCell.swift */; };
+		9C4C96D12BCD194E007B36B6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C4C96D02BCD194E007B36B6 /* GoogleService-Info.plist */; };
 		9C5275B32B8703D300B885A9 /* URLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5275B22B8703D300B885A9 /* URLModel.swift */; };
 		9C8E296B2B8842F4000A113D /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8E296A2B8842F4000A113D /* NavigationController.swift */; };
 		9C9D57CC2B7F1CFE00228CC4 /* SelectModeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9D57CA2B7F1CFE00228CC4 /* SelectModeVC.swift */; };
@@ -47,8 +57,6 @@
 		9CC422D42BA04A5E000DBC09 /* NoticeInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC422D32BA04A5E000DBC09 /* NoticeInfoVC.swift */; };
 		9CCA80A32B9186F9000E3312 /* WatchCamListSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA80A22B9186F9000E3312 /* WatchCamListSettingVC.swift */; };
 		9CCA80A52B91E54E000E3312 /* WatchCamListSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA80A42B91E54E000E3312 /* WatchCamListSettingModel.swift */; };
-		9CD86C0E2BBAC11300FD1E67 /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9CD86C0D2BBAC11300FD1E67 /* HaishinKit */; };
-		9CD86C102BBAC11300FD1E67 /* SRTHaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9CD86C0F2BBAC11300FD1E67 /* SRTHaishinKit */; };
 		9CE06A702B85B7B700DBF073 /* MoveViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE06A6F2B85B7B700DBF073 /* MoveViewControllerModel.swift */; };
 		9CF50CB52BBE9B3400C12F3F /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CF50CB42BBE9B3400C12F3F /* loading.json */; };
 /* End PBXBuildFile section */
@@ -98,7 +106,15 @@
 		9C1B14CC2B7EFDD600BA9E64 /* PetCamUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetCamUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C1B14D02B7EFDD600BA9E64 /* PetCamUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCamUITests.swift; sourceTree = "<group>"; };
 		9C1B14D22B7EFDD600BA9E64 /* PetCamUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCamUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		9C1B14EB2B7F0C5400BA9E64 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9C454ED02BC453DF002C0BD1 /* NetStreamSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetStreamSwitcher.swift; sourceTree = "<group>"; };
+		9C4C96B42BCB9C92007B36B6 /* AddCamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCamCell.swift; sourceTree = "<group>"; };
+		9C4C96B52BCB9C92007B36B6 /* AddCamCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCamCell.xib; sourceTree = "<group>"; };
+		9C4C96C32BCBF121007B36B6 /* DetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
+		9C4C96C42BCBF121007B36B6 /* DetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailCell.xib; sourceTree = "<group>"; };
+		9C4C96C72BCBF474007B36B6 /* SettingDeviceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDeviceVC.swift; sourceTree = "<group>"; };
+		9C4C96CA2BCBF69B007B36B6 /* SettingDeviceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDeviceCell.swift; sourceTree = "<group>"; };
+		9C4C96CB2BCBF69B007B36B6 /* SettingDeviceCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingDeviceCell.xib; sourceTree = "<group>"; };
+		9C4C96D02BCD194E007B36B6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Assets/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		9C5275B22B8703D300B885A9 /* URLModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLModel.swift; sourceTree = "<group>"; };
 		9C6503D12BB802FD00177FD6 /* PetCam.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PetCam.entitlements; sourceTree = "<group>"; };
 		9C8E296A2B8842F4000A113D /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
@@ -135,10 +151,10 @@
 			files = (
 				9C1B14E12B7EFE6E00BA9E64 /* FirebaseDatabase in Frameworks */,
 				9C4B5AAE2BBD5CFF00AA4FCA /* Lottie in Frameworks */,
-				9CD86C0E2BBAC11300FD1E67 /* HaishinKit in Frameworks */,
-				9CD86C102BBAC11300FD1E67 /* SRTHaishinKit in Frameworks */,
+				9C4C96B32BCB7DA8007B36B6 /* SRTHaishinKit in Frameworks */,
 				9C1B14E32B7EFE6E00BA9E64 /* FirebaseStorage in Frameworks */,
 				9C1B14E82B7F09EA00BA9E64 /* GoogleSignIn in Frameworks */,
+				9C4C96B12BCB7DA8007B36B6 /* HaishinKit in Frameworks */,
 				9C1B14EF2B7F12F700BA9E64 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -192,11 +208,10 @@
 				9CBDB3942B8C429D005EA5EA /* MainModel */,
 				9C1B14E52B7EFED800BA9E64 /* WatchMode */,
 				9C1B14E42B7EFEB200BA9E64 /* CamMode */,
-				9C1B14B22B7EFDD500BA9E64 /* Main.storyboard */,
 				9CF50CB42BBE9B3400C12F3F /* loading.json */,
 				9C1B14B82B7EFDD600BA9E64 /* Assets.xcassets */,
+				9C4C96D02BCD194E007B36B6 /* GoogleService-Info.plist */,
 				9C1B14BD2B7EFDD600BA9E64 /* Info.plist */,
-				9C1B14EB2B7F0C5400BA9E64 /* GoogleService-Info.plist */,
 				9C1B14B52B7EFDD500BA9E64 /* PetCam.xcdatamodeld */,
 			);
 			path = PetCam;
@@ -233,6 +248,7 @@
 		9C1B14E52B7EFED800BA9E64 /* WatchMode */ = {
 			isa = PBXGroup;
 			children = (
+				9C1B14B22B7EFDD500BA9E64 /* Main.storyboard */,
 				9C9D57D02B7F537600228CC4 /* WatchTabbar.swift */,
 				9C9D57D42B7F550600228CC4 /* WatchCam */,
 				9CC422C82BA01E19000DBC09 /* Notice */,
@@ -241,11 +257,31 @@
 			path = WatchMode;
 			sourceTree = "<group>";
 		};
+		9C4C96C22BCBF0FC007B36B6 /* DetailCell */ = {
+			isa = PBXGroup;
+			children = (
+				9C4C96C32BCBF121007B36B6 /* DetailCell.swift */,
+				9C4C96C42BCBF121007B36B6 /* DetailCell.xib */,
+			);
+			path = DetailCell;
+			sourceTree = "<group>";
+		};
+		9C4C96C92BCBF674007B36B6 /* SettingCell */ = {
+			isa = PBXGroup;
+			children = (
+				9C4C96CA2BCBF69B007B36B6 /* SettingDeviceCell.swift */,
+				9C4C96CB2BCBF69B007B36B6 /* SettingDeviceCell.xib */,
+			);
+			path = SettingCell;
+			sourceTree = "<group>";
+		};
 		9C67163F2BB1536100794A39 /* WatchTableCell */ = {
 			isa = PBXGroup;
 			children = (
 				9C9D57E22B80924B00228CC4 /* WatchTableCell.swift */,
 				9C9D57E32B80924B00228CC4 /* WatchTableCell.xib */,
+				9C4C96B42BCB9C92007B36B6 /* AddCamCell.swift */,
+				9C4C96B52BCB9C92007B36B6 /* AddCamCell.xib */,
 			);
 			name = WatchTableCell;
 			sourceTree = "<group>";
@@ -267,6 +303,7 @@
 			isa = PBXGroup;
 			children = (
 				9C9D57DE2B7F595A00228CC4 /* CamPlayerVC.swift */,
+				9C454ED02BC453DF002C0BD1 /* NetStreamSwitcher.swift */,
 				9CC422C62B9F08EB000DBC09 /* TestPlayer.swift */,
 				9C9D57E02B805E0700228CC4 /* PlayerModel.swift */,
 			);
@@ -278,6 +315,9 @@
 			children = (
 				9C9D57E92B809D2C00228CC4 /* UserInfoVC.swift */,
 				9C01FC682BA9AB3C00BA6062 /* UserInfoModel.swift */,
+				9C4C96C72BCBF474007B36B6 /* SettingDeviceVC.swift */,
+				9C4C96C92BCBF674007B36B6 /* SettingCell */,
+				9C4C96C22BCBF0FC007B36B6 /* DetailCell */,
 			);
 			name = UserInfo;
 			sourceTree = "<group>";
@@ -326,9 +366,9 @@
 				9C1B14E22B7EFE6E00BA9E64 /* FirebaseStorage */,
 				9C1B14E72B7F09EA00BA9E64 /* GoogleSignIn */,
 				9C1B14EE2B7F12F700BA9E64 /* FirebaseAuth */,
-				9CD86C0D2BBAC11300FD1E67 /* HaishinKit */,
-				9CD86C0F2BBAC11300FD1E67 /* SRTHaishinKit */,
 				9C4B5AAD2BBD5CFF00AA4FCA /* Lottie */,
+				9C4C96B02BCB7DA8007B36B6 /* HaishinKit */,
+				9C4C96B22BCB7DA8007B36B6 /* SRTHaishinKit */,
 			);
 			productName = PetCam;
 			productReference = 9C1B14A92B7EFDD500BA9E64 /* PetCam.app */;
@@ -405,8 +445,8 @@
 			packageReferences = (
 				9C1B14DF2B7EFE6E00BA9E64 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				9C1B14E62B7F09EA00BA9E64 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
-				9CD868802BBAB61B00FD1E67 /* XCRemoteSwiftPackageReference "HaishinKit.swift" */,
 				9C4B5AAC2BBD5CFF00AA4FCA /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				9C4C96AF2BCB7DA8007B36B6 /* XCLocalSwiftPackageReference "../../HaishinKit.swift" */,
 			);
 			productRefGroup = 9C1B14AA2B7EFDD500BA9E64 /* Products */;
 			projectDirPath = "";
@@ -424,13 +464,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C4C96CC2BCBF69B007B36B6 /* SettingDeviceCell.xib in Resources */,
 				9CC422D02BA01F13000DBC09 /* NoticeCell.xib in Resources */,
+				9C4C96B62BCB9C92007B36B6 /* AddCamCell.xib in Resources */,
 				9C9D57E52B80924B00228CC4 /* WatchTableCell.xib in Resources */,
 				9CF50CB52BBE9B3400C12F3F /* loading.json in Resources */,
-				9C1B14EC2B7F0C5400BA9E64 /* GoogleService-Info.plist in Resources */,
 				9C1B14B92B7EFDD600BA9E64 /* Assets.xcassets in Resources */,
+				9C4C96D12BCD194E007B36B6 /* GoogleService-Info.plist in Resources */,
 				9C1B14B42B7EFDD500BA9E64 /* Main.storyboard in Resources */,
 				9C9D57EF2B83587200228CC4 /* CamMode.storyboard in Resources */,
+				9C4C96C52BCBF121007B36B6 /* DetailCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,8 +498,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C4C96CD2BCBF69B007B36B6 /* SettingDeviceCell.swift in Sources */,
 				9C9D57E72B8098D200228CC4 /* FirebaseModel.swift in Sources */,
 				9CBDB39A2B8C7A1D005EA5EA /* StreamingVCModel.swift in Sources */,
+				9C4C96C82BCBF474007B36B6 /* SettingDeviceVC.swift in Sources */,
 				9C9D57EA2B809D2C00228CC4 /* UserInfoVC.swift in Sources */,
 				9CCA80A32B9186F9000E3312 /* WatchCamListSettingVC.swift in Sources */,
 				9CCA80A52B91E54E000E3312 /* WatchCamListSettingModel.swift in Sources */,
@@ -469,14 +514,17 @@
 				9CC422C52B9DC8BF000DBC09 /* StreamingInfo.swift in Sources */,
 				9CC422D22BA02240000DBC09 /* NoticeModel.swift in Sources */,
 				9CAF52852B8E131F0087D940 /* WatchCamListModel.swift in Sources */,
+				9C4C96B72BCB9C92007B36B6 /* AddCamCell.swift in Sources */,
 				9CC422C72B9F08EB000DBC09 /* TestPlayer.swift in Sources */,
 				9C5275B32B8703D300B885A9 /* URLModel.swift in Sources */,
 				9CC422CF2BA01F13000DBC09 /* NoticeCell.swift in Sources */,
 				9CC422D42BA04A5E000DBC09 /* NoticeInfoVC.swift in Sources */,
 				9C9D57E42B80924B00228CC4 /* WatchTableCell.swift in Sources */,
+				9C4C96C62BCBF121007B36B6 /* DetailCell.swift in Sources */,
 				9C1B14AF2B7EFDD500BA9E64 /* SceneDelegate.swift in Sources */,
 				9CC422CA2BA01E64000DBC09 /* NoticeVC.swift in Sources */,
 				9C9D57D32B7F542F00228CC4 /* WatchCamListVC.swift in Sources */,
+				9C454ED12BC453DF002C0BD1 /* NetStreamSwitcher.swift in Sources */,
 				9C9D57D12B7F537600228CC4 /* WatchTabbar.swift in Sources */,
 				9C9D57CC2B7F1CFE00228CC4 /* SelectModeVC.swift in Sources */,
 				9CE06A702B85B7B700DBF073 /* MoveViewControllerModel.swift in Sources */,
@@ -660,8 +708,9 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PetCam/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Camera permissions for taking videos";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Mic permissions for taking videos";
+				INFOPLIST_KEY_CFBundleDisplayName = "지금 이 순간";
+				INFOPLIST_KEY_NSCameraUsageDescription = "실시간 영상 송출을 위해 카메라 권한이 필요합니다.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "실시간 영상 송출을 위해 마이크 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenVC.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -696,8 +745,9 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PetCam/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Camera permissions for taking videos";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Mic permissions for taking videos";
+				INFOPLIST_KEY_CFBundleDisplayName = "지금 이 순간";
+				INFOPLIST_KEY_NSCameraUsageDescription = "실시간 영상 송출을 위해 카메라 권한이 필요합니다.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "실시간 영상 송출을 위해 마이크 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenVC.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -837,6 +887,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		9C4C96AF2BCB7DA8007B36B6 /* XCLocalSwiftPackageReference "../../HaishinKit.swift" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../HaishinKit.swift;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		9C1B14DF2B7EFE6E00BA9E64 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -860,14 +917,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.4.1;
-			};
-		};
-		9CD868802BBAB61B00FD1E67 /* XCRemoteSwiftPackageReference "HaishinKit.swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/shogo4405/HaishinKit.swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.7.5;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -898,14 +947,12 @@
 			package = 9C4B5AAC2BBD5CFF00AA4FCA /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
 		};
-		9CD86C0D2BBAC11300FD1E67 /* HaishinKit */ = {
+		9C4C96B02BCB7DA8007B36B6 /* HaishinKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9CD868802BBAB61B00FD1E67 /* XCRemoteSwiftPackageReference "HaishinKit.swift" */;
 			productName = HaishinKit;
 		};
-		9CD86C0F2BBAC11300FD1E67 /* SRTHaishinKit */ = {
+		9C4C96B22BCB7DA8007B36B6 /* SRTHaishinKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9CD868802BBAB61B00FD1E67 /* XCRemoteSwiftPackageReference "HaishinKit.swift" */;
 			productName = SRTHaishinKit;
 		};
 /* End XCSwiftPackageProductDependency section */

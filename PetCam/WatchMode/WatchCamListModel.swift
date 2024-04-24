@@ -25,9 +25,8 @@ class WatchCamListModel: ObservableObject {
     let thumbnailColor = UIColor(named: "CamListCell")
     let statuseRedColor = UIColor(named: "CamStatusRed")
     let statuseGreenColor = UIColor(named: "CamStatusGreen")
-    
-    func checkCam(hls: String) -> Bool {
-        guard let status =  fbModel.checkCamList[hls] else { return  false }
+
+    func checkCam(status: Int) -> Bool {
         if status == 1 { return true } else { return false }
     }
     

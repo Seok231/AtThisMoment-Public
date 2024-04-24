@@ -28,6 +28,7 @@ class NoticeModel {
                 let decoder = JSONDecoder()
                 let list = try decoder.decode([NoticeList].self, from: data)
                 self.noticeList = list.sorted(by: {$0.date > $1.date})
+                
                 completion()
                 
             } catch let error {

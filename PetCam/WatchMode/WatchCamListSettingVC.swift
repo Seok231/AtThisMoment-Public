@@ -99,6 +99,9 @@ class WatchCamListSettingVC: UIViewController {
         let imageConf = UIImage.SymbolConfiguration(pointSize: 16, weight: .light)
         let pencilImage = UIImage(systemName: "pencil", withConfiguration: imageConf)
 //        let fontColor = UIColor(named: "FontColor")
+        camInfoView.layer.shadowOpacity = 0.8
+        camInfoView.layer.shadowOffset = CGSize(width: -2, height: 2)
+        camInfoView.layer.shadowRadius = 3
         
         closeLineView.layer.cornerRadius = 2
         camNameLineView.backgroundColor = .lightGray
@@ -111,6 +114,17 @@ class WatchCamListSettingVC: UIViewController {
         camOnoffTitleLabel.text = "상태"
         batteryLabel.text = "--%"
         camOnoffLabel.text = "오프라인"
+        
+        camOnoffTitleLabel.textColor = .black
+        camOnoffLabel.textColor = .black
+        camNameTitleLabel.textColor = .black
+        deviceVersionTitleLabel.textColor = .black
+        deviceModelTitleLabel.textColor = .black
+        batteryTitleLabel.textColor = .black
+        batteryLabel.textColor = .black
+        camNameLabel.textColor = .black
+        deviceModelLabel.textColor = .black
+        deviceVersionLabel.textColor = .black
         
         camNameSettingBT.setImage(pencilImage, for: .normal)
         camNameSettingBT.setTitle("", for: .normal)

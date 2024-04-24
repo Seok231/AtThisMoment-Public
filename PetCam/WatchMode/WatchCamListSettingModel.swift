@@ -11,6 +11,7 @@ import FirebaseDatabase
 
 class WatchCamListSettingModel {
     let fbModel = FirebaseModel.fb
+    let userInfo = UserInfo.info
     var databaseRef = Database.database().reference()
     func setAlert(camName: String) -> UIAlertController {
         let title = "카메라 이름"
@@ -34,12 +35,12 @@ class WatchCamListSettingModel {
         return alert
     }
     func updateCamName(camName: String, deviceID: String) {
-        let path = fbModel.creatUserChild() + "/CamList/\(deviceID)/camName"
+        let path = userInfo.creatUserChild() + "/CamList/\(deviceID)/camName"
         print(path)
         databaseRef.child(path).setValue(camName)
     }
     func removeCam(hls: String) {
-        let path = fbModel.creatUserChild() + "/CamList/\(hls)"
+        let path = userInfo.creatUserChild() + "/CamList/\(hls)"
         databaseRef.child(path).removeValue()
     }
     func batteryLabelSetting(level: Int?, state: String?) -> String {

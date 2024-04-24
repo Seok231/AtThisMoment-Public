@@ -11,7 +11,7 @@ import FirebaseAuth
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    
+    let userModel = UserInfo.info
     // SceneDelegate.swift
     func moveToSignInVC() {
         guard let windowScene = window?.windowScene else { return }
@@ -35,12 +35,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             // 새 UIWindow 생성
         let window = UIWindow(windowScene: windowScene)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        var storyboard = UIStoryboard(name: "Main", bundle: nil)
         var vc: UIViewController
-        if Auth.auth().currentUser != nil {
-            vc = storyboard.instantiateViewController(withIdentifier: "SelectModeVC")
-        } else {
+        let mode = UserDefaults.standard.string(forKey: "Mode")
+        
+
+        if Auth.auth().currentUser == nil {
             vc = storyboard.instantiateViewController(withIdentifier: "SignInVC")
+            window.rootViewController = vc
+            self.window = window
+            window.makeKeyAndVisible()
+            guard let _ = (scene as? UIWindowScene) else { return }
+            return
+        }
+//        userModel.getUserInfo()
+        let userModel = UserInfo.info
+        if mode == "StreamingVC" {
+            storyboard = UIStoryboard(name: "CamMode", bundle: nil)
+            vc = storyboard.instantiateViewController(withIdentifier: "StreamingVC")
+            
+        } else {
+            vc = storyboard.instantiateViewController(withIdentifier: "WatchTabbar")
         }
         window.rootViewController = vc
         self.window = window

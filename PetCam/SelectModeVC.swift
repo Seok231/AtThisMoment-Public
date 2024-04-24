@@ -15,7 +15,7 @@ class SelectModeVC: UIViewController {
     @IBOutlet weak var camModeBT: UIButton!
     @IBOutlet weak var watchModeBT: UIButton!
     
-    @IBOutlet weak var testLabel: UILabel!
+    @IBOutlet weak var backgroundView: UIImageView!
     @IBAction func moveCamMode(_ sender: Any) {
         let nextVC = moveView.moveToVC(storyboardName: "CamMode", className: "StreamingVC")
         fbModel.selectModeSave(value: "CamMode")
@@ -29,8 +29,8 @@ class SelectModeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         uiSetting()
-        fbModel.removeObseve()
-        fbModel.updateUserInfo()
+//        fbModel.removeObseve()
+//        fbModel.updateUserInfo()
     }
 //    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
 //            return .portrait
@@ -38,6 +38,7 @@ class SelectModeVC: UIViewController {
     
     func uiSetting() {
         self.view.backgroundColor = UIColor(named: "BackgroundColor")
+        backgroundView.image = UIImage(named: "main")
         camModeBT.backgroundColor = UIColor(named: "MainGreen")
         watchModeBT.backgroundColor = UIColor(named: "MainGreen")
         camModeBT.layer.cornerRadius = 20

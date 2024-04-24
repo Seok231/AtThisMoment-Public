@@ -11,12 +11,9 @@ import FirebaseAuth
 
 class URLModel {
     let fbModel = FirebaseModel.fb
+    let userInfo = UserInfo.info
     let stream = StreamingVCModel()
-    var pushURL = "rtmp://diddbsthttps://velog.io/@diddbstjr55/Swift-SRT-%EC%86%A1%EC%B6%9Cjr55.iptime.org/hls"
-    func inputStringURL() -> String {
-        let hls = stream.userDeviceID
-        return "http://diddbstjr55.iptime.org/hls/\(hls).m3u8"
-    }
+    
     func makeRtmpUrl(hls: String, push: Bool) -> URL {
         if push {
             return URL(string: "rtmp://diddbstjr55.iptime.org/hls/\(hls)")!
@@ -24,7 +21,7 @@ class URLModel {
         return URL(string: "http://diddbstjr55.iptime.org/hls/\(hls).m3u8")!
     }
     func makeSrtUrl(hls: String, push: Bool) -> URL {
-        let hlsId = fbModel.userID + "@\(hls)"
+        let hlsId = userInfo.uid + "@\(hls)"
         if push {
             return URL(string: "srt://220.121.93.66:8080?streamid=uplive.yys.com/live/\(hlsId)")!
         } else {
@@ -33,13 +30,13 @@ class URLModel {
         
     }
     
-    func playerItem(hls: String) -> AVPlayerItem {
-//        let url = self.inputURL(hls: hls)
-        let url = makeSrtUrl(hls: hls, push: false)
-        let playerItem = AVPlayerItem(url: url)
-        playerItem.preferredForwardBufferDuration = TimeInterval(1.0)
-        return playerItem
-    }
+//    func playerItem(hls: String) -> AVPlayerItem {
+////        let url = self.inputURL(hls: hls)
+//        let url = makeSrtUrl(hls: hls, push: false)
+//        let playerItem = AVPlayerItem(url: url)
+//        playerItem.preferredForwardBufferDuration = TimeInterval(1.0)
+//        return playerItem
+//    }
     
     func checkM3U8(hls: String, completion: @escaping (Bool) -> Void) {
         // URLSession 객체 생성

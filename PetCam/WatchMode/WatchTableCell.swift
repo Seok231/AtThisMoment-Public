@@ -18,12 +18,13 @@ class WatchTableCell: UITableViewCell {
     @IBOutlet weak var thumbnailView: UIImageView!
     @IBOutlet weak var camNameLabel: UILabel!
     let viewModel = WatchCamListModel()
+    var blurView:UIVisualEffectView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
         self.backgroundColor = .clear
 //        contentView.backgroundColor = .gray
-        layer.masksToBounds = false
+//        layer.masksToBounds = false
         layer.shadowOpacity = 0.8
         layer.shadowOffset = CGSize(width: -2, height: 2)
         layer.shadowRadius = 3
@@ -59,7 +60,12 @@ class WatchTableCell: UITableViewCell {
         thumbnailView.backgroundColor = UIColor(named: "CamListCell")
 //        thumbnailView.image = UIImage(named: "testImage")
         thumbnailView.contentMode = .scaleAspectFill
-
+        
+        blurView = UIVisualEffectView()
+        blurView.effect = UIBlurEffect(style: .light)
+        
+        thumbnailView.addSubview(blurView)
+        blurView.frame = thumbnailView.bounds
 
     }
     override func prepareForReuse() {

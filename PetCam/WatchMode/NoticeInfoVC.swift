@@ -23,7 +23,7 @@ class NoticeInfoVC: UIViewController {
         
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         dateLabel.font = UIFont.boldSystemFont(ofSize: 10)
-        noticeTextView.font = UIFont.boldSystemFont(ofSize: 17)
+        noticeTextView.font = UIFont.boldSystemFont(ofSize: 13)
         titleLineView.backgroundColor = .lightGray
         titleLineView.layer.opacity = 0.3
         dateLabel.textColor = .darkGray
@@ -39,12 +39,14 @@ class NoticeInfoVC: UIViewController {
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
         self.navigationItem.title = "공지사항"
+        self.navigationController?.navigationBar.tintColor = UIColor(named: "MainGreen")
     }
     func settingNotice() {
         guard let list = notice else {return}
         print(list)
+        let not = list.notice.replacingOccurrences(of: "*", with: "\n")
         titleLabel.text = list.title
         dateLabel.text = list.titleDate
-        noticeTextView.text = list.notice
+        noticeTextView.text = not
     }
 }

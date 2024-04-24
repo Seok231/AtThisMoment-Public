@@ -147,6 +147,13 @@ final class NetStreamSwitcher {
 }
 
 extension NetStreamSwitcher: IOStreamDelegate {
+    func stream(_ stream: IOStream, track: UInt8, didInput buffer: AVAudioBuffer, when: AVAudioTime) {
+    }
+
+    func stream(_ stream: IOStream, track: UInt8, didInput buffer: CMSampleBuffer) {
+    }
+    
+    
     // MARK: NetStreamDelegate
     /// Tells the receiver to playback an audio packet incoming.
     func stream(_ stream: IOStream, didOutput audio: AVAudioBuffer, when: AVAudioTime) {

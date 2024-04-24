@@ -12,76 +12,139 @@ import Combine
 import FirebaseStorage
 import UIKit
 
-struct FirebaseCamListModel: Codable {
-    let result: [FirebaseCamList]
-}
 
 struct FirebaseCamList: Codable {
     let camName: String
     let hls: String
-    let date: Int
+    let date: Double
     let batteryLevel: Int
     let batteryState: String
     let deviceModel: String
     let deviceVersion: String
     let torch: Bool
+    let position: Double
 }
 
-class FirebaseModel: ObservableObject {
-    static var fb = FirebaseModel()
+class UserInfo: ObservableObject {
+    static var info = UserInfo()
     private init () {}
-    var moveVC = MoveViewControllerModel()
     var databaseRef = Database.database().reference()
-    var storageRef = Storage.storage().reference()
-    var userID = Auth.auth().currentUser?.uid ?? ""
-    var userEmail = Auth.auth().currentUser?.email ?? ""
-    var userName = Auth.auth().currentUser?.displayName ?? ""
-    var userPhotoURL = Auth.auth().currentUser?.photoURL
-    var cancellables: Set<AnyCancellable> = []
-    var checkCamList: [String:Int] = [:]
-    @Published var camList: [FirebaseCamList] = []
-    func camListCount(completion: @escaping(Int) -> Void)  {
-        $camList.sink { fb in
-            completion(fb.count)
-        }.store(in: &cancellables)
-    }
+    var uid = Auth.auth().currentUser?.uid ?? ""
+    @Published var name = Auth.auth().currentUser?.displayName
+    var email = Auth.auth().currentUser?.email
+    var photoURL = Auth.auth().currentUser?.photoURL
+    var userDeviceID = UIDevice.current.identifierForVendor!.uuidString
+    @Published var info: [String:Any] = [:]
     func creatUserChild () -> String {
-        let path = "PetCam/Users/\(userID)"
+        let path = "PetCam/Users/\(uid)"
+        print(path)
         return path
     }
-    func creatUser() {
-        let child = creatUserChild() + "/userInfo"
-        print("FirebaseModel CreatUser() child : ", child)
-        let value = ["userEmail" : userEmail, "userID" : userID]
-        databaseRef.child(child ).setValue(value)
+    func signOutOtherDevice(completion: @escaping () -> Void) {
+        let child = "PetCam/Users/\(uid)" + "/userInfo"
+        databaseRef.child(child).observe(.childRemoved) { DataSnapshot in
+            print(child)
+//            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {return}
+//            sceneDelegate.moveToSignInVC()
+            completion()
+        }
     }
-    func updateUserInfo() {
-        guard let auth = Auth.auth().currentUser else {return}
-        print("fb auth", auth)
-        guard let name = auth.displayName else {return}
-        print("fb name", name)
-        guard let email = auth.email else {return}
-        print("fb email", email)
-//        guard let photoURL = auth.photoURL else {return}
-        let uid = auth.uid
-        userName = name
-        userEmail = email
-        userID = uid
-//        userPhotoURL = photoURL
+    func deleteUser() {
+        let child = "PetCam/Users/\(uid)"
+        let info = "\(child)/userInfo/name"
+        databaseRef.child(info).removeValue()
+        databaseRef.child(child).removeValue()
+    }
+    func creatUser(name: String, user: User) {
+        let child = "PetCam/Users/\(user.uid)" + "/userInfo"
+        let email = user.email
+        let uid = user.uid
+        let value = ["userEmail" : email, "userID" : uid, "name" : name]
+        databaseRef.child(child).setValue(value)
+    }
+        
+    func getUserInfo() {
+        let child = creatUserChild() + "/userInfo/"
+        print("getUserInfo", child)
+        databaseRef.child(child).observe(.value) { dataSnap in
+            guard let data = dataSnap.value as? [String:Any] else{return}
+            self.info = data
+            guard let name = data["name"] as? String else {return}
+            self.name = name
+        }
+    }
+    func userInfoInit(user: User) {
+        uid = user.uid
+        name = user.displayName
+        email = user.email
+        userDeviceID = UIDevice.current.identifierForVendor!.uuidString
+        photoURL = user.photoURL
     }
 
     func signOut() {
+        
         let firebaseAuth = Auth.auth()
         do {
           try firebaseAuth.signOut()
         } catch let signOutError as NSError {
           print("Error signing out: %@", signOutError)
         }
-        camList = []
         
     }
+    func setAuthName(newName: String) {
+        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+        changeRequest?.displayName = newName
+        changeRequest?.commitChanges()
+    }
+    func setUserInfoName(newName: String) {
+        let child = creatUserChild() + "/userInfo/"
+        let value = ["name":newName]
+        databaseRef.child(child).updateChildValues(value)
+    }
+    func noneUserInfoAlert() -> UIAlertController {
+        
+        let title = "로그인 세션이 만료되었습니다."
+        let message = "로그인 화면으로 이동합니다."
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {return alert}
+        let move = UIAlertAction(title: "확인", style: .cancel) {_ in
+            self.signOut()
+            sceneDelegate.moveToSignInVC()
+        }
+        move.setValue(UIColor(named: "MainGreen"), forKey: "titleTextColor")
+        alert.addAction(move)
+        return alert
+    }
+}
+
+class FirebaseModel: ObservableObject {
+    static var fb = FirebaseModel()
+    private init () {
+        let device = UIDevice.current
+        let selName = "_\("deviceInfo")ForKey:"
+        let selector = NSSelectorFromString(selName)
+        if device.responds(to: selector) {
+            let name = String(describing: device.perform(selector, with: "marketing-name").takeRetainedValue())
+            deviceName = name
+        }
+        
+    }
+    var moveVC = MoveViewControllerModel()
+    var userInfo = UserInfo.info
+    var databaseRef = Database.database().reference()
+    var storageRef = Storage.storage().reference()
+    var cancellables: Set<AnyCancellable> = []
+    var deviceName: String?
+    @Published var info: [String:Any] = [:]
+    @Published var checkCamList: [String:Int] = [:]
+    @Published var camList: [FirebaseCamList] = []
+    func camListCount(completion: @escaping(Int) -> Void)  {
+        $camList.sink { fb in
+            completion(fb.count)
+        }.store(in: &cancellables)
+    }
     func singleEventUpdate() {
-        let child = creatUserChild() + "/CamList/"
+        let child = userInfo.creatUserChild() + "/CamList/"
         databaseRef.child(child).observeSingleEvent(of: .value){ DataSnapshot in
             guard let snapData = DataSnapshot.value as? [String:Any] else{
                 self.camList = []
@@ -97,10 +160,8 @@ class FirebaseModel: ObservableObject {
         }
     }
     // (Int(Date().timeIntervalSince1970)).description
-    func camListUpdate() {
-        let child = creatUserChild() + "/CamList/"
-        print("camListUpdate", child)
-        print("userName", userName)
+    func camListUpdate(completion: @escaping () -> Void) {
+        let child = userInfo.creatUserChild() + "/CamList/"
         databaseRef.child(child).observe(DataEventType.value) { DataSnapshot in
             guard let snapData = DataSnapshot.value as? [String:Any] else{
                 self.camList = []
@@ -118,7 +179,9 @@ class FirebaseModel: ObservableObject {
     }
 
     func updateCheckCam(completion: @escaping () -> Void) {
-        let child = creatUserChild() + "/CheckCam/"
+        
+        let child = userInfo.creatUserChild() + "/CheckCam"
+        print("updateCheckCam path", child)
         databaseRef.child(child).observe(DataEventType.value) { snapData in
             if let data = snapData.value as? [String:Int] {
                 
@@ -128,19 +191,25 @@ class FirebaseModel: ObservableObject {
         }
     }
     func removeObseve() {
+        print("removeObseve")
         removeCamListObseve()
         removeCheckCamObseve()
+        removeGetUserInfo()
     }
     func removeCamListObseve() {
-        let child = creatUserChild() + "CamList/"
+        let child = userInfo.creatUserChild() + "/CamList/"
         databaseRef.child(child).removeAllObservers()
     }
     func removeCheckCamObseve() {
-        let child = creatUserChild() + "CamList/"
+        let child = userInfo.creatUserChild() + "/CheckCam/"
+        databaseRef.child(child).removeAllObservers()
+    }
+    func removeGetUserInfo() {
+        let child = userInfo.creatUserChild() + "/userInfo/"
         databaseRef.child(child).removeAllObservers()
     }
     func changePosition(hls: String) {
-        let path  = creatUserChild() + "/CamList/\(hls)/position"
+        let path  = userInfo.creatUserChild() + "/CamList/\(hls)/position"
         let date = Int(Date().timeIntervalSince1970)
         databaseRef.child(path).setValue(date)
     }

@@ -16,17 +16,18 @@ import Lottie
 
 
 class CamPlayerVC: UIViewController {
+    deinit {
+        print("CamPlayerVC deinit")
+    }
     @IBOutlet weak var torchBT: UIButton!
     @IBOutlet weak var loadingBackView: UIView!
     @IBOutlet weak var batteryLevelBT: UIButton!
     @IBOutlet weak var bottomInfoView: UIView!
     @IBOutlet weak var topInfoView: UIView!
-    @IBOutlet weak var volumeBT: UIButton!
     @IBOutlet weak var changePositionBT: UIButton!
     @IBOutlet weak var camNameLabel: UILabel!
-    @IBOutlet weak var playerView: UIImageView!
+    @IBOutlet weak var playerView: MTHKView!
     @IBOutlet weak var backBT: UIButton!
-    @IBOutlet weak var fullModeBT: UIButton!
     var timer: Timer?
     var tapEventBool = false
     var torchBool = false
@@ -34,36 +35,25 @@ class CamPlayerVC: UIViewController {
     let fbModel = FirebaseModel.fb
     let moveModel = MoveViewControllerModel()
     let viewModel = PlayerModel()
-    var stream: SRTStream! = nil
-    lazy var connection = SRTConnection()
+    var stream: SRTStream?
+    var connection:SRTConnection = SRTConnection()
+    var observation: NSKeyValueObservation?
     var cancellables: Set<AnyCancellable> = []
     var timerCount = 0
     var loadingView: LottieAnimationView!
+    var hhls: String?
     private var volumeBool = false
-//    private var player = AVPlayer()
-//    private var playerLayer = AVPlayerLayer()
-//    private var pipPlayerController: AVPictureInPictureController?
-//    private var playerController = AVPlayerViewController()
     var camInfo: FirebaseCamList? {
         didSet {
             guard let list = camInfo else {return}
-//            settingPlayerURL(hls: list.hls)
             setPlayer(hls: list.hls)
+            hhls = list.hls
+            viewModel.currentCamInfo(hls: list.hls) { fb in
+                self.changedInfo(list: fb)
+            }
         }
     }
-    var listIndex: Int? {
-        didSet {
-            guard let index = listIndex else {return}
-            fbModel.$camList.sink { list in
-                if list.count == 0 { print("count - 0")
-                    return
-                }
-                self.viewModel.camInfo = list[index]
-                guard let cam = self.viewModel.camInfo else {return}
-                self.changedInfo(list: cam)
-            }.store(in: &cancellables)
-        }
-    }
+
     func changedInfo(list: FirebaseCamList) {
         let level = "\(list.batteryLevel.description)%"
         print("level",level)
@@ -88,12 +78,13 @@ class CamPlayerVC: UIViewController {
         }
         
     }
+    
     @IBAction func torch(_ sender: Any) {
-        guard let list = viewModel.camInfo else {return}
+        guard let camInfo = camInfo else {return}
         if torchBool {
-            viewModel.setOffTorch(hls: list.hls)
+            viewModel.setOffTorch(hls: camInfo.hls)
         } else {
-            viewModel.setOnTorch(hls: list.hls)
+            viewModel.setOnTorch(hls: camInfo.hls)
         }
     }
     
@@ -108,63 +99,73 @@ class CamPlayerVC: UIViewController {
         }
         timerCount = 0
     }
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
     
     override func viewDidLoad() {
         layoutSetting()
         playViewInfoTogle()
-//        setPlayer()
+
         loadingBackView.backgroundColor = .clear
         loadingView = LottieAnimationView(name: "loading")
         loadingView.frame = loadingBackView.bounds
         loadingView.play()
         loadingView.loopMode = .loop
         loadingBackView.addSubview(loadingView)
-        DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.loadingView.stop()
             self.loadingBackView.isHidden = true
+            self.backBT.isHidden = false
+            self.playerView.isHidden = false
+            
         }
         
-    }
-    override func viewDidAppear(_ animated: Bool) {
-//        NotificationCenter.default.removeObserver(self)
         
+//        observation = connection.observe(\.connected, options: [.old, .new] ){  (srtConnection, change) in
+//            guard let value = change.newValue else {return}
+//            
+//        }
+
+        
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+//        stream?.close()
+//        connection.close()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("viewWillDisappear")
-        stream.close()
-        connection.close()
-        stream.attachAudio(nil)
-        stream.attachCamera(nil, channel: 0)
-        stream.attachCamera(nil, channel: 1)
-        stream = nil
         
+        
+//        stream?.publish()
+//        stream?.attachAudio(nil)
+//        stream?.attachCamera(nil)
+        print("b")
+        stream?.close()
+        connection.close()
+        stream = nil
+        viewModel.removeObserve()
+////        netStreamSwitcher.close()
+//        pipView.attachStream(nil)
     }
 
     
     func setPlayer(hls: String) {
+        let url = urlModel.makeSrtUrl(hls: hls, push: false)
+        print("URL", url)
         stream = SRTStream(connection: connection)
-        connection.open(urlModel.makeSrtUrl(hls: hls, push: false),mode: .caller)
-        let hkView = MTHKView(frame: playerView.bounds)
-        hkView.videoGravity = AVLayerVideoGravity.resizeAspect
-        hkView.attachStream(stream)
-        playerView.addSubview(hkView)
-        stream.play()
-        hkView.accessibilityTraits = .playsSound
-    }
-    private func settingPlayerURL(hls: String) {
-//        print(urlModel.playerItem(hls: hls))
+        connection.open(url)
+//        netStreamSwitcher.uri = url.description
+//        print(connection.uri ?? "")
+//        pipView.frame = playerView.bounds
 //        
-//        player.replaceCurrentItem(with: urlModel.playerItem(hls: hls))
-//        
-//        playerLayer.player = player
-//        playerLayer.frame = playerView.bounds
-//        playerView.layer.addSublayer(playerLayer)
-//        player.play()
-//        player.volume = 0
-//        if player.timeControlStatus != .paused {
-//            print("pause")
-//        }
+//        pipView.videoGravity = .resizeAspect
+//        playerView.addSubview(pipView)
+//        playerView.attachStream(stream)
+        playerView.attachStream(stream)
+        stream?.play()
+//        netStreamSwitcher.open(.playback)
     }
     
     @objc func playViewTap(sender: UITapGestureRecognizer) {
@@ -184,13 +185,13 @@ class CamPlayerVC: UIViewController {
             self.bottomInfoView.layer.opacity = 1.0
         })
         timerCount = 0
-        timer = Timer(timeInterval: 1, repeats: true, block: { _ in
-            self.timerCount += 1
-            if self.tapEventBool == true, self.timerCount > 5 {
-                self.playViewInfoTogle()
-            }
-        })
-        RunLoop.current.add(timer!, forMode: .common)
+//        timer = Timer(timeInterval: 1, repeats: true, block: { _ in
+//            self.timerCount += 1
+//            if self.tapEventBool == true, self.timerCount > 5 {
+//                self.playViewInfoTogle()
+//            }
+//        })
+//        RunLoop.current.add(timer!, forMode: .common)
         tapEventBool.toggle()
     }
     func tapEventFalse() {
@@ -211,7 +212,6 @@ class CamPlayerVC: UIViewController {
     func layoutSetting() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(playViewTap(sender: )))
         let timerCountTap = UITapGestureRecognizer(target: self, action: #selector(addTimeTapEvent(sender: )))
-//        let btGroundColor = UIColor.mainGreen
         topInfoView.addGestureRecognizer(timerCountTap)
         bottomInfoView.addGestureRecognizer(timerCountTap)
         playerView.addGestureRecognizer(tapGesture)
@@ -221,30 +221,10 @@ class CamPlayerVC: UIViewController {
         backBT.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         backBT.setTitle("", for: .normal)
         backBT.tintColor = .white
-//        fullModeBT.setTitle("", for: .normal)
-//        fullModeBT.setImage(UIImage(systemName: "rotate.right.fill"), for: .normal)
-//        fullModeBT.tintColor = .white
-//        fullModeBT.backgroundColor = btGroundColor
-//        fullModeBT.layer.cornerRadius = fullModeBT.layer.frame.width/2
         camNameLabel.font = UIFont.boldSystemFont(ofSize: 20)
         camNameLabel.textColor = .white
-        changePositionBT.setImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
-//        changePositionBT.setTitle("카메라 변경", for: .normal)
         changePositionBT.tintColor = .white
-//        changePositionBT.backgroundColor = btGroundColor
-//        changePositionBT.layer.cornerRadius = changePositionBT.layer.frame.width / 2
-        
-        volumeBT.setImage(UIImage(systemName: "speaker.slash.fill"), for: .normal)
-        volumeBT.tintColor = .white
-        volumeBT.setTitle("", for: .normal)
-        volumeBT.isHidden = true
-//        volumeBT.backgroundColor = btGroundColor
-//        volumeBT.layer.cornerRadius = volumeBT.layer.frame.width / 2
-//        volumeBT.contentVerticalAlignment = .bottom
-        
-//        batteryLevelLabel.text = "--%"
-//        batteryLevelLabel.font = UIFont.boldSystemFont(ofSize: 10)
-//        batteryLevelLabel.textColor = .white
+        changePositionBT.setImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera"), for: .normal)
         batteryLevelBT.setTitleColor(viewModel.tintColor, for: .normal)
         batteryLevelBT.tintColor = viewModel.tintColor
         batteryLevelBT.setTitle("--%", for: .normal)
@@ -257,7 +237,9 @@ class CamPlayerVC: UIViewController {
         torchBT.setImage(UIImage(systemName: "lightbulb"), for: .normal)
         torchBT.setTitle("", for: .normal)
         torchBT.tintColor = .white
+        
+        self.backBT.isHidden = true
+        playerView.isHidden = true
     }
 
 }
-

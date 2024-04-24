@@ -9,6 +9,7 @@ import UIKit
 
 class SettingDeviceCell: UITableViewCell {
 
+    @IBOutlet weak var deviceVersionLabel: UILabel!
     @IBOutlet weak var deviceModelNameLabel: UILabel!
     @IBOutlet weak var deviceNameLabel: UILabel!
     override func awakeFromNib() {
@@ -20,10 +21,16 @@ class SettingDeviceCell: UITableViewCell {
         layer.shadowOffset = CGSize(width: -1, height: 1)
         layer.shadowRadius = 2
         selectionStyle = .none
-        deviceNameLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        deviceModelNameLabel.font = UIFont.boldSystemFont(ofSize: 10)
+        let titleFont = UIFont.boldSystemFont(ofSize: 20)
+        let subFont = UIFont.boldSystemFont(ofSize: 10)
+        deviceNameLabel.font = titleFont
+        deviceModelNameLabel.font = subFont
+        deviceVersionLabel.font = subFont
         deviceNameLabel.textColor = UIColor(named: "FontColor")
         deviceModelNameLabel.textColor = .gray
+        deviceVersionLabel.textColor = .gray
+        
+        
         
     }
 

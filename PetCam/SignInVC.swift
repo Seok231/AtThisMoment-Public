@@ -11,58 +11,35 @@ import FirebaseAuth
 import FirebaseCore
 import AuthenticationServices
 import CryptoKit
-import SRTHaishinKit
 
 class SignInVC: UIViewController {
-//    let fbModel = FirebaseModel.fb
-
     let moveVC = MoveViewControllerModel()
-    @IBOutlet weak var appleSignInView: UIImageView!
     fileprivate var currentNonce: String?
-    @IBOutlet weak var appleSignInBT: UIButton!
-    @IBOutlet weak var googleSignIn: GIDSignInButton!
-    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
-        {
-            guard let clientID = FirebaseApp.app()?.options.clientID else { 
-                print("ClientID")
-                return }
+    @IBOutlet weak var backgroundView: UIImageView!
+    @IBOutlet weak var appleSignInView: UIImageView!
+    @IBOutlet weak var googleSignIn: UIImageView!
+    
 
-            // Create Google Sign In configuration object.
-            let config = GIDConfiguration(clientID: clientID)
-            GIDSignIn.sharedInstance.configuration = config
-            GIDSignIn.sharedInstance.signIn(withPresenting: self) {
-                [unowned self] result, error in
-            guard error == nil else {return}
-                guard let user = result?.user, let idToken = user.idToken?.tokenString else {return}
-            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
-                Auth.auth().signIn(with: credential) { result, error in
-                    let fbModel = FirebaseModel.fb
-                    fbModel.updateUserInfo()
-                    fbModel.creatUser()
-                    self.present(self.moveVC.moveToVC(storyboardName: "Main", className: "SelectModeVC"), animated: true)
-                }
-            }
-    }
-    @IBAction func appleSignIn(_ sender: Any) {
+    @objc func appleEvent(tapGestureRecognizer: UITapGestureRecognizer) {
         startSignInWithAppleFlow()
     }
-    override func viewWillAppear(_ animated: Bool) {
-//        userInfo()
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer){
+        startSignInWithGoogle()
     }
     override func viewDidAppear(_ animated: Bool) {
-        userInfo()
-//        appleSignInBT.tintColor = .black
         
+        moveToVC()
     }
-    func userInfo() {
+    func moveToVC() {
         if let auth = Auth.auth().currentUser {
             print("signin : ", auth.uid)
             
-            self.present(moveVC.moveToVC(storyboardName: "Main", className: "SelectModeVC"), animated: true)
+            self.present(moveVC.moveToVC(storyboardName: "Main", className: "WatchTabbar"), animated: true)
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        backgroundView.image = UIImage(named: "main")
         
         // Google SignInBT Event
         let tapImageViewRecognizer = UITapGestureRecognizer(target: self, action:#selector(imageTapped(tapGestureRecognizer:)))
@@ -70,66 +47,53 @@ class SignInVC: UIViewController {
         googleSignIn.isUserInteractionEnabled = true
         //이미지뷰에 제스처인식기 연결
         googleSignIn.addGestureRecognizer(tapImageViewRecognizer)
+        googleSignIn.image = UIImage(named: "googleBT")
+        googleSignIn.layer.cornerRadius = 20
         
-//        appleSignInBT.setImage(UIImage(named: "appleBTW"), for: .normal)
-//        appleSignInBT.setTitle("", for: .normal)
-        appleSignInView.image = UIImage(named: "appleid_button")
-        googleSignIn.style = .wide
-        googleSignIn.colorScheme = .light
-        
+        let apple = UITapGestureRecognizer(target: self, action: #selector(appleEvent(tapGestureRecognizer:)))
+        appleSignInView.isUserInteractionEnabled = true
+        appleSignInView.addGestureRecognizer(apple)
+//        appleBT.setImage(UIImage(named: "appleBTW"), for: .normal)
+//        appleBT.setTitle("", for: .normal)
+        appleSignInView.image = UIImage(named: "appleBT")
     }
-    
-    
 }
 
-extension SignInVC: ASAuthorizationControllerDelegate {
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            guard let nonce = currentNonce else {
-                fatalError("Invalid state: A login callback was received, but no login request was sent.")
-            }
-            guard let appleIDToken = appleIDCredential.identityToken else {
-                print("Unable to fetch identity token")
-                return
-            }
-            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
-                return
-            }
-            
-            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-            
-            
+
+extension SignInVC {
+    func startSignInWithGoogle() {
+        guard let clientID = FirebaseApp.app()?.options.clientID else {
+            return }
+
+        // Create Google Sign In configuration object.
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) {
+            [unowned self] result, error in
+        guard error == nil else {return}
+            guard let user = result?.user, let idToken = user.idToken?.tokenString else {return}
+        let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
             Auth.auth().signIn(with: credential) { result, error in
-                if let error = error {
-                    print ("Error Apple sign in: %@", error)
+                guard let result = result else{
+                    print("get userInfo error")
                     return
                 }
-                // User is signed in to Firebase with Apple.
-                // ...
-                let changeRequest = result?.user.createProfileChangeRequest()
-                let fullName = appleIDCredential.fullName
-//                print("fullName",fullName?.givenName)
-                changeRequest?.displayName = (fullName?.givenName ?? "") + (fullName?.familyName ?? "")
-                changeRequest?.commitChanges(completion: { error in
-                    if let er = error {
-                        print("changeRequest error", er)
-                    }
-                })
                 
-                let fbModel = FirebaseModel.fb
-                fbModel.updateUserInfo()
-                fbModel.creatUser()
-                if let auth = Auth.auth().currentUser {
-                    print("credential", auth.uid)
-                    print("displayName", auth.displayName ?? "")
-                }
-                self.present(self.moveVC.moveToVC(storyboardName: "Main", className: "SelectModeVC"), animated: true)
+                guard let name = result.user.displayName else
+                { print("displayName error")
+                    return}
+                let auth = Auth.auth().currentUser
+                let userInfo = UserInfo.info
+                
+                
+                userInfo.userInfoInit(user: result.user)
+                userInfo.creatUser(name: name, user: result.user)
+                
+                self.present(self.moveVC.moveToVC(storyboardName: "Main", className: "WatchTabbar"), animated: true)
             }
         }
     }
 }
-
 //Apple Sign in
 extension SignInVC {
     func startSignInWithAppleFlow() {
@@ -189,10 +153,101 @@ extension SignInVC {
         return result
     }
 }
+extension SignInVC: ASAuthorizationControllerDelegate {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            guard let nonce = currentNonce else {
+                fatalError("Invalid state: A login callback was received, but no login request was sent.")
+            }
+            guard let appleIDToken = appleIDCredential.identityToken else {
+                print("Unable to fetch identity token")
+                return
+            }
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+                return
+            }
+            guard let code = appleIDCredential.authorizationCode, let codeString = String(data: code, encoding: .utf8) else {
+                print("Authorization code is missing or not decodable")
+                return
+            }
+            
+            // 여기에서 서버로 토큰 갱신 요청을 보냅니다.
+            fetchRefreshToken(from: codeString)
+            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
 
+            
+            Auth.auth().signIn(with: credential) { result, error in
+                if let error = error {
+                    print ("Error Apple sign in: %@", error)
+                    return
+                }
+                guard let result = result else {return}
+                let userInfo = UserInfo.info
+                let fullName = appleIDCredential.fullName
+                userInfo.userInfoInit(user: result.user)
+                self.setAppleIDName(personNameComponents: fullName, result: result)
+ 
+                self.present(self.moveVC.moveToVC(storyboardName: "Main", className: "WatchTabbar"), animated: true)
+            }
+        }
+    }
+    func setAppleIDName(personNameComponents: PersonNameComponents?, result: AuthDataResult?) {
+        guard let components = personNameComponents else {return}
+        guard let givenName = components.givenName else {return}
+        guard let familyName = components.familyName else {return}
+        let name = givenName + familyName
+        let auth = Auth.auth().currentUser
+        let changeRequest = auth?.createProfileChangeRequest()
+        changeRequest?.displayName = name
+        changeRequest?.commitChanges(completion: { error in
+            if let er = error {
+                print("changeRequest error", er)
+            }
+        })
+        guard let user = result?.user else{
+            print("get userInfo error")
+            return
+        }
+        let userInfo = UserInfo.info
+        userInfo.creatUser(name: name, user: user)
+        
+        userInfo.name = name
+    }
+    func setUserInfo() {
+        
+    }
+
+    func fetchRefreshToken(from code: String) {
+        guard let url = URL(string: "http://diddbstjr55.iptime.org:8002/refresh_token?code=\(code)") else { return }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            do {
+                if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let refreshToken = jsonResponse["refresh_token"] as? String {
+                    // 토큰을 UserDefaults에 저장합니다.
+                    UserDefaults.standard.set(refreshToken, forKey: "refreshToken")
+                    print("Refresh token saved: \(refreshToken)")
+                }
+            } catch let parsingError {
+                print("Error parsing JSON: \(parsingError)")
+            }
+        }
+        
+        task.resume()
+    }
+
+}
 extension SignInVC : ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return self.view.window!
     }
 }
-

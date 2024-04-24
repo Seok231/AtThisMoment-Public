@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		9C01FC692BA9AB3C00BA6062 /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C01FC682BA9AB3C00BA6062 /* UserInfoModel.swift */; };
+		9C05DC572BD109E200B01E67 /* AuthKey_N39KX78XLM.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 9C05DC562BD109E200B01E67 /* AuthKey_N39KX78XLM.p8 */; };
+		9C05DC592BD2015200B01E67 /* DetailUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C05DC582BD2015200B01E67 /* DetailUserInfoVC.swift */; };
+		9C05DC612BD26CDD00B01E67 /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9C05DC602BD26CDD00B01E67 /* HaishinKit */; };
+		9C05DC632BD26CDD00B01E67 /* SRTHaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9C05DC622BD26CDD00B01E67 /* SRTHaishinKit */; };
+		9C05DC6D2BD2708700B01E67 /* SRTHaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9C05DC6C2BD2708700B01E67 /* SRTHaishinKit */; };
+		9C05DC712BD386A700B01E67 /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9C05DC702BD386A700B01E67 /* HaishinKit */; };
+		9C05DC732BD386A700B01E67 /* SRTHaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9C05DC722BD386A700B01E67 /* SRTHaishinKit */; };
+		9C05DC802BD3891700B01E67 /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9C05DC7F2BD3891700B01E67 /* HaishinKit */; };
+		9C05DC822BD3891700B01E67 /* SRTHaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9C05DC812BD3891700B01E67 /* SRTHaishinKit */; };
 		9C1B14AD2B7EFDD500BA9E64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B14AC2B7EFDD500BA9E64 /* AppDelegate.swift */; };
 		9C1B14AF2B7EFDD500BA9E64 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B14AE2B7EFDD500BA9E64 /* SceneDelegate.swift */; };
 		9C1B14B12B7EFDD500BA9E64 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B14B02B7EFDD500BA9E64 /* SignInVC.swift */; };
@@ -24,7 +33,6 @@
 		9C454ED12BC453DF002C0BD1 /* NetStreamSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C454ED02BC453DF002C0BD1 /* NetStreamSwitcher.swift */; };
 		9C4B5AAE2BBD5CFF00AA4FCA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9C4B5AAD2BBD5CFF00AA4FCA /* Lottie */; };
 		9C4C96B12BCB7DA8007B36B6 /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9C4C96B02BCB7DA8007B36B6 /* HaishinKit */; };
-		9C4C96B32BCB7DA8007B36B6 /* SRTHaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9C4C96B22BCB7DA8007B36B6 /* SRTHaishinKit */; };
 		9C4C96B62BCB9C92007B36B6 /* AddCamCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C4C96B52BCB9C92007B36B6 /* AddCamCell.xib */; };
 		9C4C96B72BCB9C92007B36B6 /* AddCamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C96B42BCB9C92007B36B6 /* AddCamCell.swift */; };
 		9C4C96C52BCBF121007B36B6 /* DetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C4C96C42BCBF121007B36B6 /* DetailCell.xib */; };
@@ -47,6 +55,10 @@
 		9C9D57EF2B83587200228CC4 /* CamMode.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C9D57EE2B83587200228CC4 /* CamMode.storyboard */; };
 		9C9D57F12B8358BB00228CC4 /* StreamingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9D57F02B8358BB00228CC4 /* StreamingVC.swift */; };
 		9CAF52852B8E131F0087D940 /* WatchCamListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAF52842B8E131F0087D940 /* WatchCamListModel.swift */; };
+		9CB38E6A2BD38C46005F026A /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9CB38E692BD38C46005F026A /* HaishinKit */; };
+		9CB38E6C2BD38C46005F026A /* SRTHaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9CB38E6B2BD38C46005F026A /* SRTHaishinKit */; };
+		9CB38E702BD4A382005F026A /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9CB38E6F2BD4A382005F026A /* HaishinKit */; };
+		9CB38E722BD4A382005F026A /* SRTHaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9CB38E712BD4A382005F026A /* SRTHaishinKit */; };
 		9CBDB39A2B8C7A1D005EA5EA /* StreamingVCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBDB3992B8C7A1D005EA5EA /* StreamingVCModel.swift */; };
 		9CC422C52B9DC8BF000DBC09 /* StreamingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC422C42B9DC8BF000DBC09 /* StreamingInfo.swift */; };
 		9CC422C72B9F08EB000DBC09 /* TestPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC422C62B9F08EB000DBC09 /* TestPlayer.swift */; };
@@ -55,6 +67,7 @@
 		9CC422D02BA01F13000DBC09 /* NoticeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CC422CE2BA01F13000DBC09 /* NoticeCell.xib */; };
 		9CC422D22BA02240000DBC09 /* NoticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC422D12BA02240000DBC09 /* NoticeModel.swift */; };
 		9CC422D42BA04A5E000DBC09 /* NoticeInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC422D32BA04A5E000DBC09 /* NoticeInfoVC.swift */; };
+		9CC8C2BA2BD7D419002D474B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CC8C2B92BD7D419002D474B /* LaunchScreen.storyboard */; };
 		9CCA80A32B9186F9000E3312 /* WatchCamListSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA80A22B9186F9000E3312 /* WatchCamListSettingVC.swift */; };
 		9CCA80A52B91E54E000E3312 /* WatchCamListSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA80A42B91E54E000E3312 /* WatchCamListSettingModel.swift */; };
 		9CE06A702B85B7B700DBF073 /* MoveViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE06A6F2B85B7B700DBF073 /* MoveViewControllerModel.swift */; };
@@ -93,7 +106,9 @@
 
 /* Begin PBXFileReference section */
 		9C01FC682BA9AB3C00BA6062 /* UserInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
-		9C1B14A92B7EFDD500BA9E64 /* PetCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PetCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C05DC562BD109E200B01E67 /* AuthKey_N39KX78XLM.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AuthKey_N39KX78XLM.p8; path = Assets/AuthKey_N39KX78XLM.p8; sourceTree = SOURCE_ROOT; };
+		9C05DC582BD2015200B01E67 /* DetailUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUserInfoVC.swift; sourceTree = "<group>"; };
+		9C1B14A92B7EFDD500BA9E64 /* AtThisMoment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AtThisMoment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C1B14AC2B7EFDD500BA9E64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C1B14AE2B7EFDD500BA9E64 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9C1B14B02B7EFDD500BA9E64 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
@@ -101,9 +116,9 @@
 		9C1B14B62B7EFDD500BA9E64 /* PetCam.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PetCam.xcdatamodel; sourceTree = "<group>"; };
 		9C1B14B82B7EFDD600BA9E64 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C1B14BD2B7EFDD600BA9E64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9C1B14C22B7EFDD600BA9E64 /* PetCamTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetCamTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C1B14C22B7EFDD600BA9E64 /* AtThisMomentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AtThisMomentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C1B14C62B7EFDD600BA9E64 /* PetCamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCamTests.swift; sourceTree = "<group>"; };
-		9C1B14CC2B7EFDD600BA9E64 /* PetCamUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetCamUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C1B14CC2B7EFDD600BA9E64 /* AtThisMomentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AtThisMomentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C1B14D02B7EFDD600BA9E64 /* PetCamUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCamUITests.swift; sourceTree = "<group>"; };
 		9C1B14D22B7EFDD600BA9E64 /* PetCamUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCamUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		9C454ED02BC453DF002C0BD1 /* NetStreamSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetStreamSwitcher.swift; sourceTree = "<group>"; };
@@ -138,6 +153,7 @@
 		9CC422CE2BA01F13000DBC09 /* NoticeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoticeCell.xib; sourceTree = "<group>"; };
 		9CC422D12BA02240000DBC09 /* NoticeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeModel.swift; sourceTree = "<group>"; };
 		9CC422D32BA04A5E000DBC09 /* NoticeInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeInfoVC.swift; sourceTree = "<group>"; };
+		9CC8C2B92BD7D419002D474B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9CCA80A22B9186F9000E3312 /* WatchCamListSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCamListSettingVC.swift; sourceTree = "<group>"; };
 		9CCA80A42B91E54E000E3312 /* WatchCamListSettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCamListSettingModel.swift; sourceTree = "<group>"; };
 		9CE06A6F2B85B7B700DBF073 /* MoveViewControllerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveViewControllerModel.swift; sourceTree = "<group>"; };
@@ -151,10 +167,20 @@
 			files = (
 				9C1B14E12B7EFE6E00BA9E64 /* FirebaseDatabase in Frameworks */,
 				9C4B5AAE2BBD5CFF00AA4FCA /* Lottie in Frameworks */,
-				9C4C96B32BCB7DA8007B36B6 /* SRTHaishinKit in Frameworks */,
 				9C1B14E32B7EFE6E00BA9E64 /* FirebaseStorage in Frameworks */,
 				9C1B14E82B7F09EA00BA9E64 /* GoogleSignIn in Frameworks */,
+				9C05DC632BD26CDD00B01E67 /* SRTHaishinKit in Frameworks */,
+				9C05DC6D2BD2708700B01E67 /* SRTHaishinKit in Frameworks */,
+				9CB38E702BD4A382005F026A /* HaishinKit in Frameworks */,
 				9C4C96B12BCB7DA8007B36B6 /* HaishinKit in Frameworks */,
+				9C05DC612BD26CDD00B01E67 /* HaishinKit in Frameworks */,
+				9C05DC712BD386A700B01E67 /* HaishinKit in Frameworks */,
+				9C05DC732BD386A700B01E67 /* SRTHaishinKit in Frameworks */,
+				9C05DC802BD3891700B01E67 /* HaishinKit in Frameworks */,
+				9CB38E6C2BD38C46005F026A /* SRTHaishinKit in Frameworks */,
+				9C05DC822BD3891700B01E67 /* SRTHaishinKit in Frameworks */,
+				9CB38E722BD4A382005F026A /* SRTHaishinKit in Frameworks */,
+				9CB38E6A2BD38C46005F026A /* HaishinKit in Frameworks */,
 				9C1B14EF2B7F12F700BA9E64 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -189,9 +215,9 @@
 		9C1B14AA2B7EFDD500BA9E64 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9C1B14A92B7EFDD500BA9E64 /* PetCam.app */,
-				9C1B14C22B7EFDD600BA9E64 /* PetCamTests.xctest */,
-				9C1B14CC2B7EFDD600BA9E64 /* PetCamUITests.xctest */,
+				9C1B14A92B7EFDD500BA9E64 /* AtThisMoment.app */,
+				9C1B14C22B7EFDD600BA9E64 /* AtThisMomentTests.xctest */,
+				9C1B14CC2B7EFDD600BA9E64 /* AtThisMomentUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -209,7 +235,9 @@
 				9C1B14E52B7EFED800BA9E64 /* WatchMode */,
 				9C1B14E42B7EFEB200BA9E64 /* CamMode */,
 				9CF50CB42BBE9B3400C12F3F /* loading.json */,
+				9C05DC562BD109E200B01E67 /* AuthKey_N39KX78XLM.p8 */,
 				9C1B14B82B7EFDD600BA9E64 /* Assets.xcassets */,
+				9CC8C2B92BD7D419002D474B /* LaunchScreen.storyboard */,
 				9C4C96D02BCD194E007B36B6 /* GoogleService-Info.plist */,
 				9C1B14BD2B7EFDD600BA9E64 /* Info.plist */,
 				9C1B14B52B7EFDD500BA9E64 /* PetCam.xcdatamodeld */,
@@ -262,6 +290,7 @@
 			children = (
 				9C4C96C32BCBF121007B36B6 /* DetailCell.swift */,
 				9C4C96C42BCBF121007B36B6 /* DetailCell.xib */,
+				9C4C96C92BCBF674007B36B6 /* SettingCell */,
 			);
 			path = DetailCell;
 			sourceTree = "<group>";
@@ -269,6 +298,7 @@
 		9C4C96C92BCBF674007B36B6 /* SettingCell */ = {
 			isa = PBXGroup;
 			children = (
+				9C4C96C72BCBF474007B36B6 /* SettingDeviceVC.swift */,
 				9C4C96CA2BCBF69B007B36B6 /* SettingDeviceCell.swift */,
 				9C4C96CB2BCBF69B007B36B6 /* SettingDeviceCell.xib */,
 			);
@@ -315,8 +345,7 @@
 			children = (
 				9C9D57E92B809D2C00228CC4 /* UserInfoVC.swift */,
 				9C01FC682BA9AB3C00BA6062 /* UserInfoModel.swift */,
-				9C4C96C72BCBF474007B36B6 /* SettingDeviceVC.swift */,
-				9C4C96C92BCBF674007B36B6 /* SettingCell */,
+				9C05DC582BD2015200B01E67 /* DetailUserInfoVC.swift */,
 				9C4C96C22BCBF0FC007B36B6 /* DetailCell */,
 			);
 			name = UserInfo;
@@ -347,9 +376,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9C1B14A82B7EFDD500BA9E64 /* PetCam */ = {
+		9C1B14A82B7EFDD500BA9E64 /* AtThisMoment */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9C1B14D62B7EFDD600BA9E64 /* Build configuration list for PBXNativeTarget "PetCam" */;
+			buildConfigurationList = 9C1B14D62B7EFDD600BA9E64 /* Build configuration list for PBXNativeTarget "AtThisMoment" */;
 			buildPhases = (
 				9C1B14A52B7EFDD500BA9E64 /* Sources */,
 				9C1B14A62B7EFDD500BA9E64 /* Frameworks */,
@@ -360,7 +389,7 @@
 			);
 			dependencies = (
 			);
-			name = PetCam;
+			name = AtThisMoment;
 			packageProductDependencies = (
 				9C1B14E02B7EFE6E00BA9E64 /* FirebaseDatabase */,
 				9C1B14E22B7EFE6E00BA9E64 /* FirebaseStorage */,
@@ -368,15 +397,25 @@
 				9C1B14EE2B7F12F700BA9E64 /* FirebaseAuth */,
 				9C4B5AAD2BBD5CFF00AA4FCA /* Lottie */,
 				9C4C96B02BCB7DA8007B36B6 /* HaishinKit */,
-				9C4C96B22BCB7DA8007B36B6 /* SRTHaishinKit */,
+				9C05DC602BD26CDD00B01E67 /* HaishinKit */,
+				9C05DC622BD26CDD00B01E67 /* SRTHaishinKit */,
+				9C05DC6C2BD2708700B01E67 /* SRTHaishinKit */,
+				9C05DC702BD386A700B01E67 /* HaishinKit */,
+				9C05DC722BD386A700B01E67 /* SRTHaishinKit */,
+				9C05DC7F2BD3891700B01E67 /* HaishinKit */,
+				9C05DC812BD3891700B01E67 /* SRTHaishinKit */,
+				9CB38E692BD38C46005F026A /* HaishinKit */,
+				9CB38E6B2BD38C46005F026A /* SRTHaishinKit */,
+				9CB38E6F2BD4A382005F026A /* HaishinKit */,
+				9CB38E712BD4A382005F026A /* SRTHaishinKit */,
 			);
 			productName = PetCam;
-			productReference = 9C1B14A92B7EFDD500BA9E64 /* PetCam.app */;
+			productReference = 9C1B14A92B7EFDD500BA9E64 /* AtThisMoment.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9C1B14C12B7EFDD600BA9E64 /* PetCamTests */ = {
+		9C1B14C12B7EFDD600BA9E64 /* AtThisMomentTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9C1B14D92B7EFDD600BA9E64 /* Build configuration list for PBXNativeTarget "PetCamTests" */;
+			buildConfigurationList = 9C1B14D92B7EFDD600BA9E64 /* Build configuration list for PBXNativeTarget "AtThisMomentTests" */;
 			buildPhases = (
 				9C1B14BE2B7EFDD600BA9E64 /* Sources */,
 				9C1B14BF2B7EFDD600BA9E64 /* Frameworks */,
@@ -387,14 +426,14 @@
 			dependencies = (
 				9C1B14C42B7EFDD600BA9E64 /* PBXTargetDependency */,
 			);
-			name = PetCamTests;
+			name = AtThisMomentTests;
 			productName = PetCamTests;
-			productReference = 9C1B14C22B7EFDD600BA9E64 /* PetCamTests.xctest */;
+			productReference = 9C1B14C22B7EFDD600BA9E64 /* AtThisMomentTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		9C1B14CB2B7EFDD600BA9E64 /* PetCamUITests */ = {
+		9C1B14CB2B7EFDD600BA9E64 /* AtThisMomentUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9C1B14DC2B7EFDD600BA9E64 /* Build configuration list for PBXNativeTarget "PetCamUITests" */;
+			buildConfigurationList = 9C1B14DC2B7EFDD600BA9E64 /* Build configuration list for PBXNativeTarget "AtThisMomentUITests" */;
 			buildPhases = (
 				9C1B14C82B7EFDD600BA9E64 /* Sources */,
 				9C1B14C92B7EFDD600BA9E64 /* Frameworks */,
@@ -405,9 +444,9 @@
 			dependencies = (
 				9C1B14CE2B7EFDD600BA9E64 /* PBXTargetDependency */,
 			);
-			name = PetCamUITests;
+			name = AtThisMomentUITests;
 			productName = PetCamUITests;
-			productReference = 9C1B14CC2B7EFDD600BA9E64 /* PetCamUITests.xctest */;
+			productReference = 9C1B14CC2B7EFDD600BA9E64 /* AtThisMomentUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -433,7 +472,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9C1B14A42B7EFDD500BA9E64 /* Build configuration list for PBXProject "PetCam" */;
+			buildConfigurationList = 9C1B14A42B7EFDD500BA9E64 /* Build configuration list for PBXProject "AtThisMoment" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -446,15 +485,15 @@
 				9C1B14DF2B7EFE6E00BA9E64 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				9C1B14E62B7F09EA00BA9E64 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				9C4B5AAC2BBD5CFF00AA4FCA /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				9C4C96AF2BCB7DA8007B36B6 /* XCLocalSwiftPackageReference "../../HaishinKit.swift" */,
+				9CB38E6E2BD4A382005F026A /* XCLocalSwiftPackageReference "../../haishinkit/20240420/HaishinKit" */,
 			);
 			productRefGroup = 9C1B14AA2B7EFDD500BA9E64 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9C1B14A82B7EFDD500BA9E64 /* PetCam */,
-				9C1B14C12B7EFDD600BA9E64 /* PetCamTests */,
-				9C1B14CB2B7EFDD600BA9E64 /* PetCamUITests */,
+				9C1B14A82B7EFDD500BA9E64 /* AtThisMoment */,
+				9C1B14C12B7EFDD600BA9E64 /* AtThisMomentTests */,
+				9C1B14CB2B7EFDD600BA9E64 /* AtThisMomentUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -465,10 +504,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C4C96CC2BCBF69B007B36B6 /* SettingDeviceCell.xib in Resources */,
+				9C05DC572BD109E200B01E67 /* AuthKey_N39KX78XLM.p8 in Resources */,
 				9CC422D02BA01F13000DBC09 /* NoticeCell.xib in Resources */,
 				9C4C96B62BCB9C92007B36B6 /* AddCamCell.xib in Resources */,
 				9C9D57E52B80924B00228CC4 /* WatchTableCell.xib in Resources */,
 				9CF50CB52BBE9B3400C12F3F /* loading.json in Resources */,
+				9CC8C2BA2BD7D419002D474B /* LaunchScreen.storyboard in Resources */,
 				9C1B14B92B7EFDD600BA9E64 /* Assets.xcassets in Resources */,
 				9C4C96D12BCD194E007B36B6 /* GoogleService-Info.plist in Resources */,
 				9C1B14B42B7EFDD500BA9E64 /* Main.storyboard in Resources */,
@@ -518,6 +559,7 @@
 				9CC422C72B9F08EB000DBC09 /* TestPlayer.swift in Sources */,
 				9C5275B32B8703D300B885A9 /* URLModel.swift in Sources */,
 				9CC422CF2BA01F13000DBC09 /* NoticeCell.swift in Sources */,
+				9C05DC592BD2015200B01E67 /* DetailUserInfoVC.swift in Sources */,
 				9CC422D42BA04A5E000DBC09 /* NoticeInfoVC.swift in Sources */,
 				9C9D57E42B80924B00228CC4 /* WatchTableCell.swift in Sources */,
 				9C4C96C62BCBF121007B36B6 /* DetailCell.swift in Sources */,
@@ -555,12 +597,12 @@
 /* Begin PBXTargetDependency section */
 		9C1B14C42B7EFDD600BA9E64 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9C1B14A82B7EFDD500BA9E64 /* PetCam */;
+			target = 9C1B14A82B7EFDD500BA9E64 /* AtThisMoment */;
 			targetProxy = 9C1B14C32B7EFDD600BA9E64 /* PBXContainerItemProxy */;
 		};
 		9C1B14CE2B7EFDD600BA9E64 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9C1B14A82B7EFDD500BA9E64 /* PetCam */;
+			target = 9C1B14A82B7EFDD500BA9E64 /* AtThisMoment */;
 			targetProxy = 9C1B14CD2B7EFDD600BA9E64 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -712,7 +754,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "실시간 영상 송출을 위해 카메라 권한이 필요합니다.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "실시간 영상 송출을 위해 마이크 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenVC.storyboard;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -749,7 +791,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "실시간 영상 송출을 위해 카메라 권한이 필요합니다.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "실시간 영상 송출을 위해 마이크 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreenVC.storyboard;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -786,7 +828,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PetCam.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PetCam";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AtThisMoment.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AtThisMoment";
 			};
 			name = Debug;
 		};
@@ -806,7 +848,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PetCam.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PetCam";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AtThisMoment.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AtThisMoment";
 			};
 			name = Release;
 		};
@@ -849,7 +891,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9C1B14A42B7EFDD500BA9E64 /* Build configuration list for PBXProject "PetCam" */ = {
+		9C1B14A42B7EFDD500BA9E64 /* Build configuration list for PBXProject "AtThisMoment" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9C1B14D42B7EFDD600BA9E64 /* Debug */,
@@ -858,7 +900,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9C1B14D62B7EFDD600BA9E64 /* Build configuration list for PBXNativeTarget "PetCam" */ = {
+		9C1B14D62B7EFDD600BA9E64 /* Build configuration list for PBXNativeTarget "AtThisMoment" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9C1B14D72B7EFDD600BA9E64 /* Debug */,
@@ -867,7 +909,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9C1B14D92B7EFDD600BA9E64 /* Build configuration list for PBXNativeTarget "PetCamTests" */ = {
+		9C1B14D92B7EFDD600BA9E64 /* Build configuration list for PBXNativeTarget "AtThisMomentTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9C1B14DA2B7EFDD600BA9E64 /* Debug */,
@@ -876,7 +918,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9C1B14DC2B7EFDD600BA9E64 /* Build configuration list for PBXNativeTarget "PetCamUITests" */ = {
+		9C1B14DC2B7EFDD600BA9E64 /* Build configuration list for PBXNativeTarget "AtThisMomentUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9C1B14DD2B7EFDD600BA9E64 /* Debug */,
@@ -888,9 +930,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		9C4C96AF2BCB7DA8007B36B6 /* XCLocalSwiftPackageReference "../../HaishinKit.swift" */ = {
+		9CB38E6E2BD4A382005F026A /* XCLocalSwiftPackageReference "../../haishinkit/20240420/HaishinKit" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../HaishinKit.swift;
+			relativePath = ../../haishinkit/20240420/HaishinKit;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -922,6 +964,34 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9C05DC602BD26CDD00B01E67 /* HaishinKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HaishinKit;
+		};
+		9C05DC622BD26CDD00B01E67 /* SRTHaishinKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SRTHaishinKit;
+		};
+		9C05DC6C2BD2708700B01E67 /* SRTHaishinKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SRTHaishinKit;
+		};
+		9C05DC702BD386A700B01E67 /* HaishinKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HaishinKit;
+		};
+		9C05DC722BD386A700B01E67 /* SRTHaishinKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SRTHaishinKit;
+		};
+		9C05DC7F2BD3891700B01E67 /* HaishinKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HaishinKit;
+		};
+		9C05DC812BD3891700B01E67 /* SRTHaishinKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SRTHaishinKit;
+		};
 		9C1B14E02B7EFE6E00BA9E64 /* FirebaseDatabase */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9C1B14DF2B7EFE6E00BA9E64 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -951,7 +1021,19 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = HaishinKit;
 		};
-		9C4C96B22BCB7DA8007B36B6 /* SRTHaishinKit */ = {
+		9CB38E692BD38C46005F026A /* HaishinKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HaishinKit;
+		};
+		9CB38E6B2BD38C46005F026A /* SRTHaishinKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SRTHaishinKit;
+		};
+		9CB38E6F2BD4A382005F026A /* HaishinKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HaishinKit;
+		};
+		9CB38E712BD4A382005F026A /* SRTHaishinKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SRTHaishinKit;
 		};

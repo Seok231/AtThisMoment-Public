@@ -48,7 +48,7 @@ class NoticeVC: UIViewController {
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
         self.navigationItem.title = "공지사항"
-        self.navigationController?.navigationBar.tintColor = UIColor(named: "FontColor")
+        self.navigationController?.navigationBar.tintColor = UIColor(named: "MainGreen")
     }
 }
 

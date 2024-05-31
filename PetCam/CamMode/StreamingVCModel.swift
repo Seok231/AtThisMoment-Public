@@ -23,22 +23,9 @@ class StreamingVCModel {
     let userDeviceID = UIDevice.current.identifierForVendor!.uuidString
     let deviceVersion = UIDevice.current.systemVersion
     var batteryLevel: Float { UIDevice.current.batteryLevel }
-    var pushURL = "rtmp://220.121.93.66:1935/live"
-    var pushID = "ch1_s1"
     @Published var camStatus = false
     @Published var camInfo = [:]
     var cancellables: Set<AnyCancellable> = []
-//    var deviceModelName: String {
-//        let selName = "_\("deviceInfo")ForKey:"
-//        let selector = NSSelectorFromString(selName)
-////        let test : String = UIDevice.current.model
-////        print(test)
-//        if UIDevice.current.responds(to: selector) { // [옵셔널 체크 실시]
-//            let name = String(describing: UIDevice.current.perform(selector, with: "marketing-name").takeRetainedValue())
-//            return name
-//        }
-//        return ""
-//    }
     func deviceName() -> String {
         let device = UIDevice.current
         let selName = "_\("deviceInfo")ForKey:"
@@ -48,8 +35,6 @@ class StreamingVCModel {
             return name
         }
         return ""
-        
-        
     }
     func userCamPath() -> String {
         let path = "PetCam/Users/\(userInfo.uid)/CamList/\(userDeviceID)/"
@@ -88,7 +73,7 @@ class StreamingVCModel {
         databaseRef.child(path).observeSingleEvent(of: .value) { data in
             if data.value is [String:Any] {
                 self.startSetting()
-            } 
+            }
             else {self.creatCam()}
         }
         completion()

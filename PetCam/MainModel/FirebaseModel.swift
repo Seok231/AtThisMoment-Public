@@ -12,6 +12,9 @@ import Combine
 import FirebaseStorage
 import UIKit
 
+class ImageCachManager {
+    static let shared = NSCache<NSString, UIImage>()
+}
 
 struct FirebaseCamList: Codable {
     let camName: String
@@ -132,7 +135,7 @@ class FirebaseModel: ObservableObject {
     var moveVC = MoveViewControllerModel()
     var userInfo = UserInfo.info
     var databaseRef = Database.database().reference()
-    var storageRef = Storage.storage().reference()
+//    var storageRef = Storage.storage().reference()
     var cancellables: Set<AnyCancellable> = []
     var deviceName: String?
     @Published var info: [String:Any] = [:]
@@ -213,33 +216,34 @@ class FirebaseModel: ObservableObject {
         let date = Int(Date().timeIntervalSince1970)
         databaseRef.child(path).setValue(date)
     }
-    func uploadImage(image: UIImage, imageName: String, completion: @escaping (URL?) -> Void) {
-        guard let imageData = image.jpegData(compressionQuality: 0.4) else { return }
-        let metaData = StorageMetadata()
-        metaData.contentType = "image/jpeg"
-        storageRef.child("Thumbnail/\(imageName)").putData(imageData, metadata: metaData) { metaData, error in
-            self.storageRef.downloadURL { url, _ in
-                completion(url)
-            }
-        }
-    }
+//    func uploadImage(image: UIImage, imageName: String, completion: @escaping (URL?) -> Void) {
+//        guard let imageData = image.jpegData(compressionQuality: 0.4) else { return }
+//        let metaData = StorageMetadata()
+//        metaData.contentType = "image/jpeg"
+//        storageRef.child("Thumbnail/\(imageName)").putData(imageData, metadata: metaData) { metaData, error in
+//            self.storageRef.downloadURL { url, _ in
+//                completion(url)
+//            }
+//        }
+//    }
     
     func downloadImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
         let megaByte = Int64(1 * 1024 * 1024)
-        storageRef.child("Thumbnail/").getData(maxSize: megaByte) { data, error in
+        let storageReference = Storage.storage().reference(forURL: urlString)
+        storageReference.getData(maxSize: megaByte) { data, error in
             guard let imageData = data else {
                 completion(nil)
                 return
             }
             completion(UIImage(data: imageData))
         }
-    }       
-    
-    func deleteImage(imageName: String) {
-        storageRef.child("Thumbnail/\(imageName)").delete { error in
-            if let error = error { print("deleteImage error", error) }
-        }
     }
+    
+//    func deleteImage(imageName: String) {
+//        storageRef.child("Thumbnail/\(imageName)").delete { error in
+//            if let error = error { print("deleteImage error", error) }
+//        }
+//    }
     func selectModeSave(value: String) {
         UserDefaults.standard.set(value, forKey: "selectMode")
     }

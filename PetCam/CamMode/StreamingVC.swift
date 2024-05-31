@@ -7,8 +7,7 @@
 
 import Foundation
 import UIKit
-import HaishinKit
-import SRTHaishinKit
+import WebRTC
 import AVFoundation
 import Combine
 import Photos
@@ -20,7 +19,6 @@ class StreamingVC: UIViewController {
     @IBOutlet weak var torchBT: UIButton!
     @IBOutlet weak var deviceVersionLabel: UILabel!
     @IBOutlet weak var deviceVersionTitle: UILabel!
-    @IBOutlet weak var fpsSettingLabel: UILabel!
     @IBOutlet weak var camNameLabel: UILabel!
     @IBOutlet weak var camNameTitle: UILabel!
     @IBOutlet weak var camStatusBT: UIButton!
@@ -34,9 +32,7 @@ class StreamingVC: UIViewController {
     @IBOutlet weak var infoViewWidths: NSLayoutConstraint!
     @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var infoBT: UIButton!
-    @IBOutlet weak var fpsLabel: UILabel!
-    @IBOutlet weak var liveView: MTHKView!
-    @IBOutlet weak var fpsSG: UISegmentedControl!
+    @IBOutlet weak var liveView: RTCMTLVideoView!
     var safeView = UIView()
     var timer: Timer?
     var originalBright = UIScreen.main.brightness
@@ -44,8 +40,6 @@ class StreamingVC: UIViewController {
     var safeViewTimer = 0
     var checkPosition: Double?
     private var deviceOrientation = UIDevice.current.orientation
-    var stream: SRTStream! = nil
-    var connection = SRTConnection()
     var observation: NSKeyValueObservation?
     var fbModel = FirebaseModel.fb
     let userModel = UserInfo.info
@@ -53,36 +47,34 @@ class StreamingVC: UIViewController {
     let moveModel = MoveViewControllerModel()
     let userInfoModel = UserInfo.info
     let urlModel = URLModel()
+    let signalClient = SignalingClient()
+    let webRTCClient = WebRTCClient()
     var currentPosition: AVCaptureDevice.Position = .back
     var cancellables: Set<AnyCancellable> = []
     var batteryLevel: Float { UIDevice.current.batteryLevel }
     var batteryState: UIDevice.BatteryState { UIDevice.current.batteryState }
     let queue = DispatchQueue(label: "com.yys.streaming", qos: .userInitiated)
-
-    @objc func fpsSetting(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            stream.frameRate = 15
-        } else {
-            stream.frameRate = 30
+    
+    var signalClientStatus: Bool = false {
+        didSet {
+            setCamStatusBT(status: signalClientStatus)
         }
-    }
-    @IBAction func test(_ sender: Any) {
-//        startStreaming()
     }
     
+    func setSignalClient() {
+        let uid = userInfoModel.userDeviceID
+        signalClient.connect(hostDeviceId: uid, host: true)
+        signalClient.delegate = self
+        
+    }
+    func setWebRTCClient() {
+        liveView.videoContentMode = .scaleAspectFill
+        webRTCClient.startLocalCameraCapture(to: liveView, position: .back)
+        webRTCClient.delegate = self
+    }
+
     @IBAction func torch(_ sender: Any) {
-        safeViewTimer = 0
-        let torchOn = UIImage(systemName: "lightbulb")
-        let torchOff = UIImage(systemName: "lightbulb.fill")
-        if stream.torch {
-            viewModel.setOffTorch()
-            torchBT.setImage(torchOn, for: .normal)
-            stream.torch.toggle()
-        } else {
-            viewModel.setOnTorch()
-            torchBT.setImage(torchOff, for: .normal)
-            stream.torch.toggle()
-        }
+        setTorch()
     }
     @IBAction func changeCamPosition(_ sender: Any) {
         safeViewTimer = 0
@@ -94,12 +86,7 @@ class StreamingVC: UIViewController {
         reStartStreaming()
     }
     func reStartStreaming() {
-        stream.close()
-        connection.close()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.startStreaming()
-            
-        }
+        setSignalClient()
     }
     @IBAction func infoViewCloseAction(_ sender: Any) {
         UIView.animate(withDuration: 0.3) {
@@ -126,10 +113,11 @@ class StreamingVC: UIViewController {
     @IBAction func changeMode(_ sender: Any) {
         UserDefaults.standard.set("WatchCamListVC", forKey: "Mode")
         let change = UIAlertAction(title: "모드 변경", style: .default) { _ in
-            self.stopStreaming()
-            let vc = self.moveModel.moveToVC(storyboardName: "Main", className: "WatchTabbar")
+            
+            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {return}
+            
             self.timer?.invalidate()
-            self.present(vc, animated: true)
+            sceneDelegate.moveToWatchTabbar()
             
         }
         let alert = viewModel.moveAlert(moveAction: change)
@@ -174,7 +162,7 @@ class StreamingVC: UIViewController {
         safeViewLabel.centerXAnchor.constraint(equalTo: liveView.centerXAnchor).isActive = true
         let resetSafeViewTimer = UITapGestureRecognizer(target: self, action: #selector(safeViewEvent(sender:)))
         let offSafeView = UITapGestureRecognizer(target: self, action: #selector(offSafeView(sender: )))
-        liveView.addGestureRecognizer(resetSafeViewTimer)
+//        liveView.addGestureRecognizer(resetSafeViewTimer)
         infoView.addGestureRecognizer(resetSafeViewTimer)
         safeView.addGestureRecognizer(offSafeView)
     }
@@ -202,23 +190,10 @@ class StreamingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.checkCameraPermission()
-        streamBaseSetting()
-        streamSetting()
-      
-        queue.asyncAfter(deadline: .now() + 1) {
-            self.startStreaming()
-        }
-        streamSetting()
-////        DispatchQueue.main.async {
-            self.settingUI()
-////        }
-        setCamStatusBT(status: connection.connected)
-        observation = connection.observe(\.connected, options: [.old, .new] ){  (srtConnection, change) in
-            print("observ")
-            guard let value = change.newValue else {return}
-            print("Connection status changed",value)
-            self.setCamStatusBT(status: value)
-        }
+        setSignalClient()
+        setWebRTCClient()
+
+        settingUI()
         setSafeView()
         setCamInfo()
     }
@@ -227,14 +202,16 @@ class StreamingVC: UIViewController {
         
     }
     override func viewDidDisappear(_ animated: Bool) {
-        stopStreaming()
-        //        viewModel.setOffTorch()
+//        stopStreaming()
+        webRTCClient.closeHost()
+        signalClient.close()
+        viewModel.setOffTorch()
         viewModel.removeListener()
         self.timer?.invalidate()
     }
     func setCamStatusBT(status: Bool) {
         DispatchQueue.main.async {
-            if self.connection.connected  {
+            if status {
                 self.camStatusBT.setTitle("온라인", for: .normal)
                 self.camStatusBT.tintColor = UIColor(named: "CamStatusGreen")
                 self.retryPushBT.isHidden = true
@@ -263,70 +240,59 @@ class StreamingVC: UIViewController {
         
     }
     func observTorch(toggle: Bool) {
-        if toggle {
-            stream.torch = toggle
-            torchBT.setImage(UIImage(systemName: "lightbulb.fill"), for: .normal)
-        } else {
-            stream.torch = toggle
-            torchBT.setImage(UIImage(systemName: "lightbulb"), for: .normal)
+        guard let device = AVCaptureDevice.default(for: .video) else { return }
+        print("torch")
+        let torchOn = UIImage(systemName: "lightbulb")
+        let torchOff = UIImage(systemName: "lightbulb.fill")
+        if device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                if device.torchMode == .off && toggle {
+                    device.torchMode = .on
+                    viewModel.setOnTorch()
+                    torchBT.setImage(torchOff, for: .normal)
+                }
+                if device.torchMode == .on && toggle == false {
+                    device.torchMode = .off
+                    viewModel.setOffTorch()
+                    torchBT.setImage(torchOn, for: .normal)
+                }
+                
+                device.unlockForConfiguration()
+            }
+            catch {
+                print("")
+            }
         }
     }
     
-    func streamBaseSetting() {
-        stream = SRTStream(connection: connection)
-        stream.frameRate = 15
-        
-//        stream.bitrateStrategy = IOStreamVideoAdaptiveNetBitRateStrategy(mamimumVideoBitrate: VideoCodecSettings.default.bitRate)
+    func setTorch() {
+        guard let device = AVCaptureDevice.default(for: .video) else { return }
+        print("torch")
+        let torchOn = UIImage(systemName: "lightbulb")
+        let torchOff = UIImage(systemName: "lightbulb.fill")
+        if device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                if device.torchMode == .off {
+                    device.torchMode = .on
+                    viewModel.setOnTorch()
+                    torchBT.setImage(torchOff, for: .normal)
+                }
+                else {
+                    device.torchMode = .off
+                    viewModel.setOffTorch()
+                    torchBT.setImage(torchOn, for: .normal)
+                }
+                
+                device.unlockForConfiguration()
+            }
+            catch {
+                print("")
+            }
+        }
     }
-    func streamSetting() {
-//        stream = SRTStream(connection: connection)
-//        stream.frameRate = 15
-        stream.videoSettings = VideoCodecSettings(
-            videoSize: .init(width: 720, height: 1280),
-            bitRate: 640 * 1000
-        )
-        stream.attachAudio(AVCaptureDevice.default(for: .audio))
-        stream.attachCamera(AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back), track: 0)
-        liveView.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        liveView.attachStream(stream)
-        
-        
-    }
-    func startStreaming() {
-        let url = urlModel.makeSrtUrl( hls: viewModel.userDeviceID, push: true)
-        print(url.description)
-
-        connection.open(url)
-        print("connection",connection.uri)
-        
-        
-        // 카메라 모드 -> 모티터링 모드 -> 카메라 모드
-//        queue.asyncAfter(deadline: .now() + 5) {
-            print("test")
-            self.stream.publish()
-//        }
-//        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-//            
-//        }
-        
-    
-        
-
-        
-    }
-    func stopStreaming() {
-        print("stopStreaming()")
-        stream.close()
-        connection.close()
-        stream.attachCamera(nil, track: 0)
-        stream.attachCamera(nil, track: 1)
-        stream.attachAudio(nil)
-        //        stream.removeObserver(self, forKeyPath: "currentFPS")
-        //        connection.removeEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
-        
-        //        NotificationCenter.default.removeObserver(self)
-    }
-    
+  
     func setPosition(check: Double) {
         print("setPosition")
         guard let cp = checkPosition else{return}
@@ -338,14 +304,10 @@ class StreamingVC: UIViewController {
     }
     
     func changePosition() {
-
+        print("changePosition()")
         let position: AVCaptureDevice.Position = self.currentPosition == .back ? .front : .back
-        stream.attachCamera(AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: position), track: 0) { _, error in
-            if let error {
-                print("attachVideo error", error)
-            }
-        }
-        self.currentPosition = position
+        webRTCClient.chagePeersCamPosition2(renderer: liveView, position: position)
+        currentPosition = position
     }
     
     
@@ -358,7 +320,6 @@ class StreamingVC: UIViewController {
         let labelFont = UIFont.boldSystemFont(ofSize: 15)
         
         liveView.addGestureRecognizer(tapGesture)
-        
         infoView.layer.shadowOpacity = 0.8
         infoView.layer.shadowOffset = CGSize(width: 2, height: 2)
         infoView.layer.shadowRadius = 3
@@ -396,17 +357,6 @@ class StreamingVC: UIViewController {
         camNameTitle.textColor = .lightGray
         camNameLabel.font = labelFont
         camNameLabel.textColor = .black
-        fpsLabel.text = "0FPS"
-        fpsLabel.textColor = .white
-        fpsLabel.isHidden = true
-        fpsSettingLabel.font = titleFont
-        fpsSettingLabel.textColor = .lightGray
-        fpsSettingLabel.text = "FPS"
-        //        fpsSettingLabel.isHidden = true
-        
-        fpsSG.backgroundColor = .lightGray
-        fpsSG.addTarget(self, action: #selector(fpsSetting(_:)), for: .valueChanged)
-        fpsSG.isHidden = false
         
         deviceVersionTitle.text = "카메라 버전"
         deviceVersionTitle.font = titleFont
@@ -455,3 +405,68 @@ class StreamingVC: UIViewController {
     }
 }
 
+extension StreamingVC: SignalClientDelegate {
+    func signalClient(_ signalClient: SignalingClient, didReceiveRemoteSdp sdp: RTCSessionDescription, clientId id: String) {
+//        guard let peer = webRTCClient.createPeerConnection(for: id, local: true) else {
+//            print("get didReceiveRemoteSdp peer error")
+//            return
+//        }
+//        peer.setRemoteDescription(sdp, completionHandler: { error in
+//            print("setRemoteDescription", error)
+//        })
+//        webRTCClient.answer(peer: peer) { sdp in
+//            self.signalClient.send(sdp: sdp, uid: id)
+//        }
+        webRTCClient.setHost(remoteSdp: sdp, id: id) { error in
+            if let error = error as NSError? {
+                print("didReceiveRemoteSdp", error)
+            }
+        }
+    }
+    
+    func signalClient(_ signalClient: SignalingClient, didReceiveCandidate candidate: RTCIceCandidate, clientId id: String) {
+        webRTCClient.setHost(remoteCandidate: candidate, clientId: id) { error in
+            if let error = error as NSError? {
+                print("didReceiveCandidate error",error)
+            }
+        }
+    }
+    
+    func getOffer(_ signalClient: SignalingClient, clientId id: String) {
+        print("id",id)
+        guard let connection =  webRTCClient.createHostPeerConnection(for: id, local: true) else {
+            print("get id PeerConnection error")
+            return
+        }
+        webRTCClient.testSendOffer(peerConnection: connection) { sdp in
+            self.signalClient.send(sdp: sdp, uid: id)
+        }
+    }
+    
+    func signalClientDidConnect(_ signalClient: SignalingClient) {
+        print("signalClientDidConnect")
+        signalClientStatus = true
+    }
+    
+    func signalClientDidDisconnect(_ signalClient: SignalingClient) {
+        signalClientStatus = false
+    }
+}
+
+extension StreamingVC: WebRTCClientDelegate {
+
+    
+    func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
+        signalClient.send(candidate: candidate, uid: "test")
+    }
+    
+    func webRTCClient(_ client: WebRTCClient, didChangeConnectionState state: RTCIceConnectionState) {
+        print("didChangeConnectionState", state)
+    }
+    
+    func webRTCClient(_ client: WebRTCClient, didReceiveData data: Data) {
+    }
+    
+    func webRTCClient(_ client: WebRTCClient, didAdd stream: RTCMediaStream) {
+    }
+}

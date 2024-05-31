@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import FirebaseAuth
+import SafariServices
 import Combine
 
 class UserInfoVC: UIViewController {
@@ -109,7 +110,7 @@ class UserInfoVC: UIViewController {
 
 extension UserInfoVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        2
+        3
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         60
@@ -125,6 +126,10 @@ extension UserInfoVC: UITableViewDataSource, UITableViewDelegate {
         case 1:
             cell.detailLabel.text = "기기 관리"
             cell.iconView.image = UIImage(systemName: "iphone.gen2")
+            return cell
+        case 2:
+            cell.detailLabel.text = "개인정보 처리방침"
+            cell.iconView.image = UIImage(systemName: "hand.raised.app.fill")
             return cell
         default:
             cell.detailLabel.text = "기기 관리"
@@ -147,6 +152,11 @@ extension UserInfoVC: UITableViewDataSource, UITableViewDelegate {
         case 1:
             guard let nextVC = self.storyboard?.instantiateViewController(identifier: "SettingDeviceVC") else {return}
             self.navigationController?.pushViewController(nextVC, animated: true)
+        case 2:
+            let url = viewModel.privacyURL
+            guard let url = url else { return }
+            let safariViewController = SFSafariViewController(url: url)
+            present(safariViewController, animated: true, completion: nil)
         default :
             let move = UIAlertAction(title: "모드 변경", style: .default) { _ in
                 let vc = self.moveModel.moveToVC(storyboardName: "CamMode", className: "StreamingVC")

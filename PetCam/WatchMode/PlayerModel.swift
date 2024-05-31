@@ -19,8 +19,9 @@ class PlayerModel {
     var fbHandle: DatabaseHandle?
     let fbModel = FirebaseModel.fb
     let userInfo = UserInfo.info
-    let imageConf = UIImage.SymbolConfiguration(pointSize: 9, weight: .light)
-    let labelFont = UIFont.boldSystemFont(ofSize: 13)
+    let watchCamListSettingModel = WatchCamListSettingModel()
+    let imageConf = UIImage.SymbolConfiguration(pointSize: 10, weight: .light)
+    let labelFont = UIFont.boldSystemFont(ofSize: 10)
     let tintColor = UIColor.white
     func removeObserve() {
         guard let handle = fbHandle else {
@@ -50,6 +51,39 @@ class PlayerModel {
                 print("Error decoding data: \(error.localizedDescription)")
             }
         }
+    }
+    func disconnectedAlert() -> UIAlertController {
+        let title = "카메라와 연결이 끊김"
+        let message = "카메라와의 연결이 끊겼습니다.\n네트워크 연결을 확인해 주세요."
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        return alert
+    }
+    
+    func chageCamNameAlert(camName: String) -> UIAlertController {
+        let title = "카메라 이름"
+        let message = "변경할 카메라 이름을 입력해 주세요."
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addTextField { alert in
+            alert.text = camName
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        cancel.setValue(UIColor.lightGray, forKey: "titleTextColor")
+        alert.addAction(cancel)
+        return alert
+    }
+    func checkAudioPermission(){
+        AVCaptureDevice.requestAccess(for: .audio, completionHandler: { (granted: Bool) in
+            if granted {
+                print("Audio: 권한 허용")
+            } else {
+                print("Audio: 권한 거부")
+            }
+        })
+
+    }
+    func updateCamName(changeName: String, deviceID: String) {
+        watchCamListSettingModel.updateCamName(camName: changeName, deviceID: deviceID)
+        
     }
     func setOnTorch(hls: String) {
         let path = getCamPath(hls: hls) + "torch/"

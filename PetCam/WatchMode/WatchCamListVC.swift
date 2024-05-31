@@ -88,7 +88,6 @@ class WatchCamListVC: UIViewController {
     }
     @objc func moveToCamMode() {
         let move = UIAlertAction(title: "모드 변경", style: .default) { _ in
-            let streamingModel = StreamingVCModel()
             let vc = self.moveModel.moveToVC(storyboardName: "CamMode", className: "StreamingVC")
             self.setupActivityIndicator()
             self.fbModel.removeObseve()
@@ -157,8 +156,9 @@ extension WatchCamListVC: UITableViewDelegate, UITableViewDataSource {
         
         
         fbModel.$checkCamList.sink { list in
-            guard let cam = list[fb.hls] else {return}
+            let cam = list[fb.hls] ?? 0
             let status = vm.checkCam(status: cam)
+            print(cam, status)
             let camStatus = status ? "온라인" : "오프라인"
             let batteryLevel = vm.batteryLevelString(level: fb.batteryLevel, status: status)
             let batteryImage = vm.batteryImage(level: fb.batteryLevel, status: fb.batteryState, linkStatus: status)
@@ -195,7 +195,7 @@ extension WatchCamListVC: UITableViewDelegate, UITableViewDataSource {
         settingVC.camList = list
 //        self.navigationController?.pushViewController(settingVC, animated: true)
     }
-
+//roomId l3sgLaPYVqUYMfhEoQbY3ZTDHzf2@5845B495-2D23-428C-9643-7E27F19F700D
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let fb = fbModel.camList[indexPath.row]

@@ -105,7 +105,8 @@ class WatchCamListSettingVC: UIViewController {
         
         closeLineView.layer.cornerRadius = 2
         camNameLineView.backgroundColor = .lightGray
-        camInfoView.backgroundColor = UIColor(named: "MainGreen")
+//        camInfoView.backgroundColor = UIColor(named: "MainGreen")
+        camInfoView.backgroundColor = .lightGray
         camInfoView.layer.cornerRadius = 10
         camNameTitleLabel.text = "카메라 이름"
         deviceModelTitleLabel.text = "카메라 모델"

@@ -9,7 +9,6 @@ import Foundation
 import FirebaseDatabase
 import UIKit
 import Combine
-import HaishinKit
 
 
 class WatchCamListModel: ObservableObject {

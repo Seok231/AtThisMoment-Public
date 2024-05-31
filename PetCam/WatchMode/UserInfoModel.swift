@@ -12,7 +12,7 @@ import GoogleSignIn
 
 class UserInfoVCModel {
 //    let fbModel = FirebaseModel()
-    
+    let privacyURL = URL(string: "https://yangyunseok.notion.site/02f95a5432de45fd95d1432c73072a39")
     func setUserNameAlert(oldName: String) -> UIAlertController {
         let title = "닉네임 변경"
 //        let message = "변경할 카메라 이름을 입력해 주세요."

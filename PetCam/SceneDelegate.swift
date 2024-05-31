@@ -24,11 +24,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = initialViewController
         window?.makeKeyAndVisible()
+    }
+    func moveToWatchTabbar() {
+        guard let windowScene = window?.windowScene else { return }
+        
+        // 초기 뷰 컨트롤러 설정
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let initialViewController = storyboard.instantiateViewController(withIdentifier: "WatchTabbar") as? WatchTabbar else { return }
+        
+        // 새로운 루트 뷰 컨트롤러를 설정하여 앱을 처음 상태로 리셋
+        window = UIWindow(windowScene: windowScene)
+        window?.rootViewController = initialViewController
+        window?.makeKeyAndVisible()
         
         // 필요한 경우 사용자 정보 싱글톤 초기화
 //        UserManager.shared.resetUser()
     }
-
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }

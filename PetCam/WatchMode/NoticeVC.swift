@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SafariServices
 
 class NoticeVC: UIViewController {
     
@@ -17,16 +18,29 @@ class NoticeVC: UIViewController {
     let refreshControl = UIRefreshControl()
     override func viewDidLoad() {
         navigationSet()
-        initRefresh()
-        tableView.register(UINib(nibName: "NoticeCell", bundle: nil), forCellReuseIdentifier: "NoticeCell")
-        tableView.dataSource = self
-        tableView.delegate = self
+        setTableView()
+
         viewModel.currentNotices {
+            print("viewModel.currentNotices")
             self.tableView.reloadData()
         }
-        tableView.backgroundColor = UIColor(named: "BackgroundColor")
-
     }
+    
+    func setTableView() {
+        initRefresh()
+        tableView.register(UINib(nibName: "NoticeCell", bundle: nil), forCellReuseIdentifier: "NoticeCell")
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.backgroundColor = UIColor(named: "BackgroundColor")
+        tableView.separatorStyle = .none
+        tableView.layer.shadowColor = UIColor.black.cgColor
+        tableView.layer.shadowOpacity = 0.3 //alpha값
+        tableView.layer.shadowRadius = 5 //반경
+        tableView.layer.shadowOffset = CGSize(width: 0, height: 10)
+    }
+    
+
     
     func initRefresh() {
         refreshControl.addTarget(self, action: #selector(refreshTable(refresh:)), for: .valueChanged)
@@ -38,8 +52,6 @@ class NoticeVC: UIViewController {
             self.viewModel.currentNotices {
                 self.tableView.reloadData()
             }
-            
-            
             refresh.endRefreshing()
         }
     }
@@ -57,22 +69,32 @@ extension NoticeVC: UITableViewDelegate, UITableViewDataSource {
         viewModel.noticeList.count
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        60
+        260
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NoticeCell", for: indexPath) as! NoticeCell
         let list = viewModel.noticeList[indexPath.row]
+        if indexPath.row == 0 {
+            let image = UIImage(named: "settingImage")
+            cell.thumbnailView.image = image
+        } else {
+            let image = UIImage(named: "mainImage")
+            cell.thumbnailView.image = image
+        }
+
+        
         cell.titleLabel.text = list.title
-        cell.dateLabel.text = list.titleDate
+//        cell.dateLabel.text = list.titleDate
         cell.selectionStyle = .none
+        
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let vc = moveModel.moveToVC(storyboardName: "Main", className: "NoticeInfoVC") as? NoticeInfoVC else {return}
-        
-        self.navigationController?.pushViewController(vc, animated: true)
-        vc.notice = viewModel.noticeList[indexPath.row]
+        let stringURL = viewModel.noticeList[indexPath.row].url
+        guard let url = URL(string: stringURL) else { return }
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
     }
     
     
